@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Camino Inversor - Gestión Patrimonial & Finanzas Personales</title>
+    <meta name="description" content="Calculadoras de hipoteca, interés compuesto, balance de patrimonio neto y finanzas personales. Prepárate con herramientas gratuitas y artículos de calidad.">
+    <link rel="stylesheet" href="styles.css">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="switchTab('panel')">
+                <div class="logo-icon"><i class="fa-solid fa-chart-line"></i></div>
+                <span class="logo-text">elcamino<span class="highlight">inversor</span>.es</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><span class="nav-link active" onclick="switchTab('panel')" id="nav-panel"><i class="fa-solid fa-house"></i> Panel</span></li>
+                    <li><span class="nav-link" onclick="switchTab('hipoteca')" id="nav-hipoteca"><i class="fa-solid fa-house-laptop"></i> Hipotecas</span></li>
+                    <li><span class="nav-link" onclick="switchTab('interes')" id="nav-interes"><i class="fa-solid fa-arrow-up-right-dots"></i> Interés Compuesto</span></li>
+                    <li><span class="nav-link" onclick="switchTab('patrimonio')" id="nav-patrimonio"><i class="fa-solid fa-vault"></i> Patrimonio</span></li>
+                    <li><span class="nav-link" onclick="switchTab('gastos')" id="nav-gastos"><i class="fa-solid fa-receipt"></i> Ingresos/Gastos</span></li>
+                    <li><span class="nav-link" onclick="switchTab('blog')" id="nav-blog"><i class="fa-solid fa-book-open"></i> Artículos</span></li>
+                    <li><span class="nav-link" onclick="switchTab('contacto')" id="nav-contacto"><i class="fa-solid fa-signature"></i> Asesoría</span></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area (SPA Sections) -->
+    <main>
+
+        <!-- 1. DASHBOARD PANEL SECTION -->
+        <section id="panel" class="page-section active">
+            <div class="hero">
+                <div class="badge">Gestión Inteligente del Patrimonio</div>
+                <h1>Toma el control de tu <span>futuro financiero</span></h1>
+                <p>Calcula, planifica y analiza tu patrimonio neto en una única plataforma privada, segura y libre de publicidad invasiva.</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Summary Card 1: Net Worth -->
+                <div class="card secondary-accent" style="grid-column: span 6;" onclick="switchTab('patrimonio')">
+                    <div class="card-title">
+                        <i class="fa-solid fa-scale-balanced" style="color: var(--secondary)"></i> Patrimonio Neto Estimado
+                    </div>
+                    <div class="metric-value" id="kpi-net-worth">0,00 €</div>
+                    <div class="metric-label">Actualizado según tus activos y pasivos declarados</div>
+                    <div class="metric-change" id="kpi-net-worth-desc">
+                        Completa tu balance para calcular tu riqueza real.
+                    </div>
+                </div>
+
+                <!-- Summary Card 2: Cashflow -->
+                <div class="card primary-accent" style="grid-column: span 6;" onclick="switchTab('gastos')">
+                    <div class="card-title">
+                        <i class="fa-solid fa-wallet" style="color: var(--primary)"></i> Balance Mensual
+                    </div>
+                    <div class="quick-kpis">
+                        <div>
+                            <div class="kpi-title">Ingresos</div>
+                            <div class="kpi-value income" id="kpi-income">0,00 €</div>
+                        </div>
+                        <div>
+                            <div class="kpi-title">Gastos</div>
+                            <div class="kpi-value expense" id="kpi-expense">0,00 €</div>
+                        </div>
+                    </div>
+                    <div class="metric-change positive" id="kpi-savings-rate">
+                        Tasa de Ahorro: 0%
+                    </div>
+                </div>
+
+                <!-- Tools Access Cards -->
+                <div class="card" style="grid-column: span 4;" onclick="switchTab('hipoteca')">
+                    <div class="card-title"><i class="fa-solid fa-calculator" style="color: var(--secondary)"></i> Hipotecas</div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Calcula tu cuota mensual de amortización y conoce el impacto real de los tipos de interés en tu préstamo.</p>
+                    <span class="read-more">Calcular ahora <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+
+                <div class="card" style="grid-column: span 4;" onclick="switchTab('interes')">
+                    <div class="card-title"><i class="fa-solid fa-chart-line" style="color: var(--primary)"></i> Interés Compuesto</div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Simula el crecimiento de tus inversiones a largo plazo combinando tus aportaciones periódicas.</p>
+                    <span class="read-more">Simular rentabilidad <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+
+                <div class="card" style="grid-column: span 4;" onclick="switchTab('blog')">
+                    <div class="card-title"><i class="fa-solid fa-book" style="color: var(--accent)"></i> Guías y Artículos</div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Lee nuestros artículos educativos sobre inflación, fiscalidad, inversiones y normativa financiera MIFID II.</p>
+                    <span class="read-more">Ver artículos <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+            </div>
+
+            <!-- Call to Action Lead Magnet -->
+            <div class="cta-banner">
+                <div class="cta-content">
+                    <h2>¿Quieres acelerar tu camino inversor?</h2>
+                    <p>Estudiar finanzas es excelente, pero contar con un plan patrimonial a tu medida marca la diferencia. Agenda una sesión estratégica y de diagnóstico gratuita de 30 minutos orientada bajo estándares profesionales.</p>
+                    <button class="btn btn-primary" onclick="switchTab('contacto')"><i class="fa-regular fa-calendar-check"></i> Agendar Diagnóstico Gratuito</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MORTGAGE CALCULATOR -->
+        <section id="hipoteca" class="page-section">
+            <div class="hero">
+                <div class="badge">Simuladores Activos</div>
+                <h1>Calculadora de <span>Hipotecas</span></h1>
+                <p>Estima tu cuota mensual y calcula el total de intereses que pagarás al banco utilizando el sistema de amortización francés.</p>
+            </div>
+
+            <div class="tool-container">
+                <!-- Inputs -->
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-sliders"></i> Ajustar Parámetros</div>
+                    
+                    <div class="form-group">
+                        <label for="mortgage-amount">Importe del Préstamo (€)</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">€</span>
+                            <input type="number" id="mortgage-amount" class="prefixed" value="150000" min="5000" step="5000" oninput="calculateMortgage()">
+                        </div>
+                        <input type="range" id="mortgage-amount-range" min="10000" max="1000000" step="5000" value="150000" oninput="syncRangeInput('mortgage-amount', this.value); calculateMortgage();">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mortgage-interest">Tipo de Interés Anual (%)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="mortgage-interest" class="suffixed" value="3.5" min="0.1" max="15" step="0.05" oninput="calculateMortgage()">
+                            <span class="input-suffix">%</span>
+                        </div>
+                        <input type="range" id="mortgage-interest-range" min="0.5" max="10" step="0.05" value="3.5" oninput="syncRangeInput('mortgage-interest', this.value); calculateMortgage();">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="mortgage-term">Plazo de Amortización (Años)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="mortgage-term" class="suffixed" value="30" min="1" max="50" step="1" oninput="calculateMortgage()">
+                            <span class="input-suffix">Años</span>
+                        </div>
+                        <input type="range" id="mortgage-term-range" min="5" max="40" step="1" value="30" oninput="syncRangeInput('mortgage-term', this.value); calculateMortgage();">
+                    </div>
+                </div>
+
+                <!-- Results Display -->
+                <div class="result-panel">
+                    <div class="result-header">
+                        <div class="result-title">Cuota Mensual Estimada</div>
+                        <div class="result-main-value" id="mortgage-monthly">673,57 €</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Capital Solicitado</div>
+                            <div class="breakdown-value" id="mortgage-capital-res">150.000,00 €</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Total Intereses a Pagar</div>
+                            <div class="breakdown-value" id="mortgage-interest-res" style="color: var(--danger);">92.485,20 €</div>
+                        </div>
+                    </div>
+
+                    <div class="breakdown-item" style="margin-bottom: 1.5rem; width: 100%;">
+                        <div class="breakdown-label">Coste Total del Préstamo (Capital + Intereses)</div>
+                        <div class="breakdown-value" id="mortgage-total-res" style="font-size: 1.4rem;">242.485,20 €</div>
+                    </div>
+
+                    <!-- SVG Chart for Visual Ratio -->
+                    <div class="chart-container">
+                        <svg class="chart-svg" viewBox="0 0 100 100" id="mortgage-chart-svg">
+                            <!-- SVG Path will be generated dynamically by JS -->
+                        </svg>
+                        <div class="chart-tooltip" id="mortgage-tooltip">Tooltip</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. COMPOUND INTEREST CALCULATOR -->
+        <section id="interes" class="page-section">
+            <div class="hero">
+                <div class="badge">Planificación Financiera</div>
+                <h1>Simulador de <span>Interés Compuesto</span></h1>
+                <p>Comprueba la potencia del interés compuesto en tus ahorros a largo plazo proyectando el efecto de aportaciones constantes.</p>
+            </div>
+
+            <div class="tool-container">
+                <!-- Inputs -->
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-sliders"></i> Configura tu Simulación</div>
+                    
+                    <div class="form-group">
+                        <label for="compound-initial">Inversión Inicial (€)</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">€</span>
+                            <input type="number" id="compound-initial" class="prefixed" value="5000" min="0" step="500" oninput="calculateCompound()">
+                        </div>
+                        <input type="range" id="compound-initial-range" min="0" max="100000" step="1000" value="5000" oninput="syncRangeInput('compound-initial', this.value); calculateCompound();">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="compound-monthly">Aportación Mensual (€)</label>
+                        <div class="input-wrapper">
+                            <span class="input-prefix">€</span>
+                            <input type="number" id="compound-monthly" class="prefixed" value="200" min="0" step="25" oninput="calculateCompound()">
+                        </div>
+                        <input type="range" id="compound-monthly-range" min="0" max="5000" step="50" value="200" oninput="syncRangeInput('compound-monthly', this.value); calculateCompound();">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="compound-rate">Rentabilidad Anual Estimada (%)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="compound-rate" class="suffixed" value="7" min="0.1" max="25" step="0.1" oninput="calculateCompound()">
+                            <span class="input-suffix">%</span>
+                        </div>
+                        <input type="range" id="compound-rate-range" min="1" max="15" step="0.25" value="7" oninput="syncRangeInput('compound-rate', this.value); calculateCompound();">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="compound-years">Horizonte Temporal (Años)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="compound-years" class="suffixed" value="20" min="1" max="50" step="1" oninput="calculateCompound()">
+                            <span class="input-suffix">Años</span>
+                        </div>
+                        <input type="range" id="compound-years-range" min="2" max="45" step="1" value="20" oninput="syncRangeInput('compound-years', this.value); calculateCompound();">
+                    </div>
+                </div>
+
+                <!-- Results Display -->
+                <div class="result-panel">
+                    <div class="result-header">
+                        <div class="result-title">Capital Final Acumulado</div>
+                        <div class="result-main-value" id="compound-final">109.117,14 €</div>
+                    </div>
+                    
+                    <div class="result-breakdown">
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Tus Aportaciones Totales</div>
+                            <div class="breakdown-value" id="compound-contributions">53.000,00 €</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Intereses Acumulados</div>
+                            <div class="breakdown-value" id="compound-interest-res" style="color: var(--primary);">56.117,14 €</div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic SVG Bar Chart for Projections -->
+                    <div class="chart-container" style="height: 250px;">
+                        <svg class="chart-svg" id="compound-chart-svg" viewBox="0 0 400 200">
+                            <!-- Dynamic Bars and Axes will be drawn here -->
+                        </svg>
+                        <div class="chart-tooltip" id="compound-tooltip">Tooltip</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. NET WORTH SHEET -->
+        <section id="patrimonio" class="page-section">
+            <div class="hero">
+                <div class="badge">Hoja de Cálculo Privada</div>
+                <h1>Tu <span>Patrimonio Neto</span> Personal</h1>
+                <p>Registra tus bienes y deudas. Los datos se guardan exclusivamente en tu navegador de forma segura e inaccesible para terceros.</p>
+            </div>
+
+            <!-- Asset Table Card -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <div class="card-title" style="color: var(--primary);">
+                    <i class="fa-solid fa-arrow-trend-up"></i> 1. Tus Activos (Bienes y Derechos)
+                </div>
+                
+                <div class="table-container">
+                    <table class="sheet-table" id="table-assets">
+                        <thead>
+                            <tr>
+                                <th style="width: 45%;">Concepto / Categoría</th>
+                                <th style="width: 20%;">Tipo</th>
+                                <th style="width: 25%;">Valor Estimado (€)</th>
+                                <th style="width: 10%; text-align: center;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="assets-list">
+                            <!-- Seed Assets will be injected and editable -->
+                        </tbody>
+                        <tr class="total-row">
+                            <td>TOTAL ACTIVOS</td>
+                            <td></td>
+                            <td id="assets-total-val">0,00 €</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="addNewRow('assets')"><i class="fa-solid fa-plus"></i> Añadir Activo</button>
+            </div>
+
+            <!-- Liabilities Table Card -->
+            <div class="card" style="margin-bottom: 2rem;">
+                <div class="card-title" style="color: var(--danger);">
+                    <i class="fa-solid fa-arrow-trend-down"></i> 2. Tus Pasivos (Deudas y Obligaciones)
+                </div>
+                
+                <div class="table-container">
+                    <table class="sheet-table" id="table-liabilities">
+                        <thead>
+                            <tr>
+                                <th style="width: 45%;">Concepto / Categoría</th>
+                                <th style="width: 20%;">Tipo</th>
+                                <th style="width: 25%;">Importe Pendiente (€)</th>
+                                <th style="width: 10%; text-align: center;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="liabilities-list">
+                            <!-- Seed Liabilities will be injected -->
+                        </tbody>
+                        <tr class="total-row" style="background: rgba(239, 68, 68, 0.05);">
+                            <td>TOTAL PASIVOS</td>
+                            <td></td>
+                            <td id="liabilities-total-val" style="color: var(--danger);">0,00 €</td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <button class="btn btn-outline btn-sm" onclick="addNewRow('liabilities')"><i class="fa-solid fa-plus"></i> Añadir Pasivo</button>
+            </div>
+
+            <!-- Net Worth Display -->
+            <div class="result-panel" style="background: rgba(13, 20, 35, 0.8);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;">
+                    <div>
+                        <div class="result-title">Balance de Patrimonio</div>
+                        <div class="result-main-value" id="net-worth-final-val" style="color: var(--text-primary);">0,00 €</div>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;" id="net-worth-summary-text">Calculando tu balance patrimonial...</p>
+                    </div>
+                    <button class="btn btn-secondary" onclick="switchTab('contacto')"><i class="fa-solid fa-user-tie"></i> Optimizar mi Patrimonio con un Asesor</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. CASH FLOW SHEET -->
+        <section id="gastos" class="page-section">
+            <div class="hero">
+                <div class="badge">Presupuesto y Control</div>
+                <h1>Registro de <span>Ingresos y Gastos</span></h1>
+                <p>Analiza de dónde viene tu dinero y a dónde va. Mantén una tasa de ahorro saludable para potenciar tus inversiones.</p>
+            </div>
+
+            <!-- Form + Quick Stats -->
+            <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 2rem; align-items: start; margin-bottom: 2rem;" class="tool-container">
+                
+                <!-- Quick Form to Add -->
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-plus-minus"></i> Nueva Transacción</div>
+                    
+                    <form id="transaction-form" onsubmit="addTransaction(event)">
+                        <div class="form-group">
+                            <label for="tx-concept">Concepto</label>
+                            <input type="text" id="tx-concept" placeholder="Ej. Nómina, Supermercado, Alquiler" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="tx-type">Tipo</label>
+                            <select id="tx-type" onchange="adjustCategories(this.value)">
+                                <option value="income">Ingreso (+)</option>
+                                <option value="expense" selected>Gasto (-)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tx-category">Categoría</label>
+                            <select id="tx-category">
+                                <!-- Categories dynamically loaded -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tx-amount">Importe (€)</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">€</span>
+                                <input type="number" id="tx-amount" class="prefixed" min="0.01" step="0.01" placeholder="0.00" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tx-date">Fecha</label>
+                            <input type="date" id="tx-date" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-check"></i> Registrar</button>
+                    </form>
+                </div>
+
+                <!-- Transaction List -->
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-list"></i> Historial de Movimientos</div>
+                    
+                    <div class="table-container" style="max-height: 400px; overflow-y: auto;">
+                        <table class="sheet-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Concepto</th>
+                                    <th>Categoría</th>
+                                    <th>Importe</th>
+                                    <th style="text-align: center;">Borrar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="transaction-list">
+                                <!-- Transactions injected here -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="color: var(--text-secondary); font-size: 0.9rem;" id="saving-ratio-badge">Proporción de Ahorro: 0.00%</span>
+                        <button class="btn btn-danger btn-sm" onclick="clearTransactions()"><i class="fa-solid fa-trash-can"></i> Limpiar Todo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. BLOG SECTION -->
+        <section id="blog" class="page-section">
+            <div class="hero">
+                <div class="badge">Artículos de Interés</div>
+                <h1>Educación <span>Financiera</span> & Normativa</h1>
+                <p>Información objetiva y relevante para ayudarte a comprender las bases de la inversión y las garantías de la regulación.</p>
+            </div>
+
+            <div class="blog-grid" id="blog-posts-grid">
+                <!-- Blog cards will be injected by JavaScript -->
+            </div>
+        </section>
+
+        <!-- 7. ADVISORY / CONTACT SECTION -->
+        <section id="contacto" class="page-section">
+            <div class="hero">
+                <div class="badge">Planificación & Cumplimiento</div>
+                <h1>Asesoramiento Financiero <span>Certificado</span></h1>
+                <p>Construye una estructura patrimonial a largo plazo alineada con tus objetivos. Diagnóstico inicial 100% gratuito.</p>
+            </div>
+
+            <div class="tool-container">
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-graduation-cap"></i> ¿Por qué trabajar con un Asesor?</div>
+                    <p style="margin-bottom: 1rem; color: var(--text-secondary);">El sector financiero está repleto de información ruidosa y productos opacos. Contar con una guía profesional certificada te proporciona:</p>
+                    
+                    <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.75rem; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 1.5rem;">
+                        <li><i class="fa-solid fa-circle-check" style="color: var(--primary); margin-right: 0.5rem;"></i> <strong>Transparencia legal:</strong> Cumplimiento estricto con las exigencias del marco regulador europeo <strong>MIFID II</strong>.</li>
+                        <li><i class="fa-solid fa-circle-check" style="color: var(--primary); margin-right: 0.5rem;"></i> <strong>Planificación Integral:</strong> Optimización de inversiones, control fiscal inteligente y planificación hipotecaria.</li>
+                        <li><i class="fa-solid fa-circle-check" style="color: var(--primary); margin-right: 0.5rem;"></i> <strong>Sin Conflicto de Interés:</strong> Diseñamos soluciones basadas en tu perfil de riesgo y no en las comisiones de los bancos.</li>
+                    </ul>
+
+                    <div style="background: rgba(59, 130, 246, 0.05); border: 1px solid var(--border-accent); border-radius: 10px; padding: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                        <i class="fa-solid fa-shield-halved" style="color: var(--secondary); margin-right: 0.5rem;"></i> <strong>Garantía de Certificación:</strong> Asesoramiento fundamentado bajo el programa de idoneidad MIFID II (Marco Legal de Protección al Inversor Minorista en España).
+                    </div>
+                </div>
+
+                <!-- Contact Form Card -->
+                <div class="card">
+                    <div class="card-title"><i class="fa-regular fa-envelope"></i> Agenda tu Sesión de Diagnóstico</div>
+                    
+                    <form id="lead-contact-form" onsubmit="handleContactSubmit(event)">
+                        <div class="form-group">
+                            <label for="contact-name">Nombre Completo</label>
+                            <input type="text" id="contact-name" placeholder="Tu nombre" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-email">Correo Electrónico</label>
+                            <input type="text" id="contact-email" placeholder="tucorreo@ejemplo.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-phone">Teléfono de Contacto (Opcional)</label>
+                            <input type="text" id="contact-phone" placeholder="Ej. +34 600 000 000">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-interest">¿En qué estás más interesado?</label>
+                            <select id="contact-interest">
+                                <option value="patrimonio">Optimización de mi Patrimonio Neto</option>
+                                <option value="hipoteca">Planificación Hipotecaria y Deudas</option>
+                                <option value="inversion">Estrategia de Inversión a largo plazo</option>
+                                <option value="mifid">Consultoría Financiera General</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-msg">Notas o Comentarios Adicionales</label>
+                            <textarea id="contact-msg" rows="3" placeholder="Cuéntame brevemente tu situación financiera actual..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-secondary" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> Solicitar Sesión Gratuita</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FULL SCREEN ARTICLE READER MODAL -->
+    <div class="article-modal" id="article-reader-modal">
+        <div class="article-container">
+            <span class="close-modal" onclick="closeArticleModal()"><i class="fa-solid fa-xmark"></i></span>
+            <div id="article-content-target">
+                <!-- Content loaded dynamically -->
+            </div>
+            
+            <div class="cta-banner" style="margin-top: 3rem;">
+                <div class="cta-content">
+                    <h3>¿Te interesa este tema?</h3>
+                    <p>Profundicemos en tus finanzas con un análisis detallado a tu medida. Diseñemos una estrategia adaptada a tus objetivos.</p>
+                    <button class="btn btn-primary btn-sm" onclick="closeArticleModal(); switchTab('contacto')">Solicitar Asesoría de Diagnóstico Gratuita</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER WITH REGULATORY MIFID II DISCLAIMER -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-top">
+                <a href="#" class="logo" onclick="switchTab('panel')">
+                    <div class="logo-icon"><i class="fa-solid fa-chart-line"></i></div>
+                    <span style="font-size: 1.25rem;">elcamino<span class="highlight">inversor</span>.es</span>
+                </a>
+                <div>
+                    <span style="margin-right: 1.5rem; cursor: pointer;" onclick="switchTab('blog')">Artículos</span>
+                    <span style="margin-right: 1.5rem; cursor: pointer;" onclick="switchTab('contacto')">Asesoramiento</span>
+                    <span style="cursor: pointer;" onclick="switchTab('panel')">Inicio</span>
+                </div>
+            </div>
+            
+            <div class="legal-disclaimer">
+                <p><strong>Aviso de Exención de Responsabilidad Legal y Regulatoria (MIFID II & CNMV):</strong> El contenido y las herramientas de cálculo proporcionadas en el sitio web <strong>elcaminoinversor.es</strong> tienen una finalidad exclusivamente didáctica, educativa e ilustrativa. No constituyen, bajo ninguna circunstancia, una oferta de venta, solicitud de compra ni una recomendación personalizada de inversión, asesoramiento fiscal o financiero formal de acuerdo con las normativas europeas <strong>MIFID II</strong> (Markets in Financial Instruments Directive) o las regulaciones de la <strong>CNMV</strong> (Comisión Nacional del Mercado de Valores) en España.</p>
+                <p style="margin-top: 0.5rem;">Las simulaciones de hipotecas e interés compuesto se basan en fórmulas matemáticas teóricas y tipos de interés estimados que pueden cambiar de acuerdo con las condiciones reales del mercado y las entidades bancarias. Las rentabilidades pasadas no garantizan rendimientos futuros. El usuario asume toda la responsabilidad sobre las decisiones financieras tomadas a partir de las herramientas de este sitio. El asesoramiento personalizado formal requiere el análisis explícito del perfil de idoneidad, situación financiera y objetivos de inversión de cada cliente, formalizado mediante un contrato de prestación de servicios.</p>
+                <p style="margin-top: 0.5rem; text-align: center;">&copy; 2026 elcaminoinversor.es. Todos los derechos reservados. Diseñado bajo estándares de cumplimiento ético y financiero.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript logic -->
+    <script src="app.js"></script>
+</body>
+</html>
