@@ -223,7 +223,9 @@
             <div class="tool-container">
                 <!-- Inputs -->
                 <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-s                    <div class="form-group">
+                    <div class="card-title"><i class="fa-solid fa-sliders"></i> Ajustar Parámetros</div>
+
+                    <div class="form-group">
                         <label for="compound-initial">Inversión Inicial (€)</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">€</span>
@@ -371,18 +373,6 @@
                     <button class="btn btn-secondary" onclick="switchTab('contacto')"><i class="fa-solid fa-user-tie"></i> Optimizar mi Patrimonio con un Asesor</button>
                 </div>
             </div>
-<!-- Patrimonio Charts Section -->
-<div id="patrimonio-charts" style="margin-top: 2rem;">
-    <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
-        <button class="btn btn-primary btn-sm" onclick="savePatrimonioSnapshot()">Guardar Snapshot</button>
-        <button class="btn btn-primary btn-sm" onclick="exportPatrimonioCsv()">Exportar CSV</button>
-    </div>
-    <canvas id="assetsChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
-    <canvas id="liabilitiesChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
-    <canvas id="netWorthChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
-</div>
-</section>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         </section>
 
         <!-- 5. CASH FLOW SHEET -->
@@ -466,17 +456,6 @@
                 </div>
             </div>
         </section>
-<!-- Cash Flow Charts Section -->
-<div id="cashflow-charts" style="margin-top: 2rem;">
-  <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
-    <button class="btn btn-primary btn-sm" onclick="saveCashflowSnapshot()">Guardar Snapshot</button>
-    <button class="btn btn-primary btn-sm" onclick="exportCashflowCsv()">Exportar CSV</button>
-  </div>
-  <canvas id="incomeChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
-  <canvas id="expenseChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
-  <canvas id="savingsChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
-</div>
-</section>
 
         <!-- 6. BLOG SECTION -->
         <section id="blog" class="page-section">
