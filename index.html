@@ -206,6 +206,8 @@
                         </svg>
                         <div class="chart-tooltip" id="mortgage-tooltip">Tooltip</div>
                     </div>
+                    <!-- Chart Legend: always visible -->
+                    <div id="mortgage-chart-legend" style="display:flex; justify-content:center; gap:2rem; margin-top:1rem; flex-wrap:wrap;"></div>
                 </div>
             </div>
         </section>
@@ -372,9 +374,6 @@
 <!-- Patrimonio Charts Section -->
 <div id="patrimonio-charts" style="margin-top: 2rem;">
     <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
-        <label for="patrimonio-month-select">Mes:</label>
-        <select id="patrimonio-month-select" onchange="onPatrimonioMonthChange(this.value)" style="padding:0.4rem 0.6rem; background: var(--card-bg); color: var(--text-primary); border:1px solid var(--border-accent); border-radius:4px;">
-        </select>
         <button class="btn btn-primary btn-sm" onclick="savePatrimonioSnapshot()">Guardar Snapshot</button>
         <button class="btn btn-primary btn-sm" onclick="exportPatrimonioCsv()">Exportar CSV</button>
     </div>
@@ -470,8 +469,6 @@
 <!-- Cash Flow Charts Section -->
 <div id="cashflow-charts" style="margin-top: 2rem;">
   <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
-    <label for="cashflow-month-select">Mes:</label>
-    <select id="cashflow-month-select" onchange="onCashflowMonthChange(this.value)" style="padding:0.4rem 0.6rem; background: var(--card-bg); color: var(--text-primary); border:1px solid var(--border-accent); border-radius:4px;"></select>
     <button class="btn btn-primary btn-sm" onclick="saveCashflowSnapshot()">Guardar Snapshot</button>
     <button class="btn btn-primary btn-sm" onclick="exportCashflowCsv()">Exportar CSV</button>
   </div>

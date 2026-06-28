@@ -99,16 +99,30 @@ function calculateMortgage() {
     const effortEl = document.getElementById('effort-rate');
     if (effortEl) effortEl.innerText = formatEuro(effort);
 
-    // Status based on monthly payment vs 35% effort rule
+    // Status based on monthly payment vs 35% effort rule — large visual badge
     const statusEl = document.getElementById('effort-status');
     if (statusEl) {
         if (monthlyIncome > 0 && monthlyPayment > 0) {
             if (monthlyPayment <= effort) {
-                statusEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> La cuota es asumible. Está dentro del 35% de tu ingreso mensual.';
-                statusEl.style.color = 'var(--primary)';
+                statusEl.innerHTML = `
+                    <div style="background:rgba(0,200,83,0.12); border:2px solid var(--primary); border-radius:14px; padding:1.1rem 1.5rem; text-align:center; margin-top:0.75rem;">
+                        <div style="font-size:2.2rem; font-weight:900; color:var(--primary); letter-spacing:1px;">
+                            <i class="fa-solid fa-circle-check"></i> OK
+                        </div>
+                        <div style="font-size:0.88rem; color:var(--text-secondary); margin-top:0.4rem; line-height:1.5;">
+                            La cuota está dentro del 35% de tu ingreso mensual.<br>Puedes asumir esta hipoteca.
+                        </div>
+                    </div>`;
             } else {
-                statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Atención: la cuota supera el 35% de tu ingreso mensual. No se recomienda solicitar este préstamo.';
-                statusEl.style.color = 'var(--danger)';
+                statusEl.innerHTML = `
+                    <div style="background:rgba(255,59,48,0.12); border:2px solid var(--danger); border-radius:14px; padding:1.1rem 1.5rem; text-align:center; margin-top:0.75rem;">
+                        <div style="font-size:2.2rem; font-weight:900; color:var(--danger); letter-spacing:1px;">
+                            <i class="fa-solid fa-triangle-exclamation"></i> KO
+                        </div>
+                        <div style="font-size:0.88rem; color:var(--text-secondary); margin-top:0.4rem; line-height:1.5;">
+                            La cuota supera el 35% de tu ingreso mensual.<br>No se recomienda solicitar este préstamo.
+                        </div>
+                    </div>`;
             }
         } else {
             statusEl.innerHTML = '';
@@ -249,17 +263,29 @@ function drawMortgageChart(capital, interest) {
             const val = segment.getAttribute('data-val');
             tooltip.style.opacity = 1;
             tooltip.innerHTML = `<strong>${name}:</strong> ${val}`;
-            
-            // Position tooltip near the mouse inside chart container
             const rect = svg.getBoundingClientRect();
             tooltip.style.left = `${e.clientX - rect.left + 15}px`;
             tooltip.style.top = `${e.clientY - rect.top + 15}px`;
         });
-
         segment.addEventListener('mouseleave', () => {
             tooltip.style.opacity = 0;
         });
     });
+
+    // Always-visible legend below the chart
+    const legend = document.getElementById('mortgage-chart-legend');
+    if (legend) {
+        legend.innerHTML = `
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <span style="display:inline-block; width:14px; height:14px; border-radius:3px; background:var(--secondary); flex-shrink:0;"></span>
+                <span style="font-size:0.85rem; color:var(--text-secondary);">Capital: <strong style="color:var(--text-primary);">${formatEuro(capital)}</strong> <span style="color:var(--text-muted);">(${capitalPercent.toFixed(1)}%)</span></span>
+            </div>
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <span style="display:inline-block; width:14px; height:14px; border-radius:3px; background:var(--danger); flex-shrink:0;"></span>
+                <span style="font-size:0.85rem; color:var(--text-secondary);">Intereses: <strong style="color:var(--danger);">${formatEuro(interest)}</strong> <span style="color:var(--text-muted);">(${interestPercent.toFixed(1)}%)</span></span>
+            </div>
+        `;
+    }
 }
 
 
