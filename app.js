@@ -90,35 +90,40 @@ function calculateMortgage() {
     // Update Donut Chart
     drawMortgageChart(amount, totalInterest);
 
-    // Effort calculation (35% of net salary)
+    // Effort calculation (35% of monthly income)
     const salaryInput = document.getElementById('salary-input');
-    const salary = parseFloat(salaryInput?.value) || 0;
-    const effort = salary * 0.35;
+    const salaryRaw = parseFloat(salaryInput?.value) || 0;
+    const salaryType = document.querySelector('input[name="salary-type"]:checked')?.value || 'monthly';
+    const monthlyIncome = salaryType === 'annual' ? salaryRaw / 12 : salaryRaw;
+    const effort = monthlyIncome * 0.35;
     const effortEl = document.getElementById('effort-rate');
     if (effortEl) effortEl.innerText = formatEuro(effort);
 
-    // Status OK/KO based on monthly payment vs effort
+    // Status based on monthly payment vs 35% effort rule
     const statusEl = document.getElementById('effort-status');
     if (statusEl) {
-      if (monthlyPayment <= effort) {
-        statusEl.innerText = 'OK';
-        statusEl.style.color = 'var(--primary)';
-      } else {
-        statusEl.innerText = 'KO';
-        statusEl.style.color = 'var(--danger)';
-      }
+        if (monthlyIncome > 0 && monthlyPayment > 0) {
+            if (monthlyPayment <= effort) {
+                statusEl.innerHTML = '<i class="fa-solid fa-circle-check"></i> La cuota es asumible. Está dentro del 35% de tu ingreso mensual.';
+                statusEl.style.color = 'var(--primary)';
+            } else {
+                statusEl.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Atención: la cuota supera el 35% de tu ingreso mensual. No se recomienda solicitar este préstamo.';
+                statusEl.style.color = 'var(--danger)';
+            }
+        } else {
+            statusEl.innerHTML = '';
+        }
     }
 }
 
-// Increase loan amount by 5000
-function increaseLoan() {
-  const amountInput = document.getElementById('mortgage-amount');
-  let amt = parseFloat(amountInput.value) || 0;
-  amt += 5000;
-  amountInput.value = amt;
-  const range = document.getElementById('mortgage-amount-range');
-  if (range) range.value = amt;
-  calculateMortgage();
+function updateSalaryLabel() {
+    const salaryType = document.querySelector('input[name="salary-type"]:checked')?.value || 'monthly';
+    const label = document.getElementById('salary-type-label');
+    if (label) {
+        label.innerText = salaryType === 'annual'
+            ? 'Salario bruto anual (se divide entre 12 para obtener el ingreso mensual)'
+            : 'Ingreso neto mensual';
+    }
 }
 
 // Export calculation data to CSV
