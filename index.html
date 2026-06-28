@@ -114,8 +114,9 @@
                 <p>Estima tu cuota mensual y calcula el total de intereses que pagarás al banco utilizando el sistema de amortización francés.</p>
             </div>
 
-            <div class="tool-container">
-                <!-- Inputs -->
+            <div class="tool-container tool-container-3col">
+
+                <!-- Col 1: Parámetros del préstamo -->
                 <div class="card">
                     <div class="card-title"><i class="fa-solid fa-sliders"></i> Ajustar Parámetros</div>
 
@@ -145,35 +146,48 @@
                         </div>
                         <input type="range" id="mortgage-term-range" min="5" max="40" step="1" value="30" oninput="syncRangeInput('mortgage-term', this.value); calculateMortgage();">
                     </div>
+                </div>
 
-                    <div class="form-group" style="margin-top: 1.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                <!-- Col 2: Ingreso y análisis de esfuerzo -->
+                <div class="card">
+                    <div class="card-title"><i class="fa-solid fa-scale-balanced"></i> Tu Esfuerzo Financiero</div>
+
+                    <div class="form-group">
                         <label style="font-size: 1rem; font-weight: 600; color: var(--text-primary);">¿Cuánto es tu ingreso?</label>
-                        <div style="display: flex; gap: 1.5rem; margin: 0.75rem 0; flex-wrap: wrap;">
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-secondary); font-size: 0.9rem;">
+                        <div style="display: flex; gap: 1rem; margin: 0.75rem 0; flex-wrap: wrap;">
+                            <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: var(--text-secondary); font-size: 0.88rem;">
                                 <input type="radio" name="salary-type" value="monthly" checked onchange="updateSalaryLabel(); calculateMortgage();">
-                                Ingreso neto mensual
+                                Neto mensual
                             </label>
-                            <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-secondary); font-size: 0.9rem;">
+                            <label style="display: flex; align-items: center; gap: 0.4rem; cursor: pointer; color: var(--text-secondary); font-size: 0.88rem;">
                                 <input type="radio" name="salary-type" value="annual" onchange="updateSalaryLabel(); calculateMortgage();">
-                                Salario bruto anual
+                                Bruto anual
                             </label>
                         </div>
                         <div class="input-wrapper">
                             <span class="input-prefix">€</span>
                             <input type="number" id="salary-input" class="prefixed" value="3000" min="0" step="100" oninput="calculateMortgage()">
                         </div>
-                        <span id="salary-type-label" style="color: var(--text-secondary); font-size: 0.82rem; margin-top: 0.4rem; display: block;">Ingreso neto mensual</span>
+                        <span id="salary-type-label" style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.4rem; display: block;">Ingreso neto mensual</span>
                     </div>
 
                     <div class="form-group">
-                        <label>Esfuerzo máximo recomendado (35% de tu ingreso mensual)</label>
-                        <div class="breakdown-value" id="effort-rate" style="font-size: 1.4rem; color: var(--secondary);">0,00 €</div>
-                        <div id="effort-status" style="margin-top: 0.6rem; font-size: 0.95rem; font-weight: 600; line-height: 1.4;"></div>
+                        <label style="font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-secondary);">Comparación</label>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin: 0.75rem 0;">
+                            <div style="text-align: center; padding: 0.9rem 0.5rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 10px;">
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem;">Cuota Mensual</div>
+                                <div id="effort-cuota-compare" style="font-size: 1.25rem; font-weight: 800; color: var(--primary);">0,00 €</div>
+                            </div>
+                            <div style="text-align: center; padding: 0.9rem 0.5rem; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 10px;">
+                                <div style="font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.3rem;">Tope 35%</div>
+                                <div id="effort-rate" style="font-size: 1.25rem; font-weight: 800; color: var(--secondary);">0,00 €</div>
+                            </div>
+                        </div>
+                        <div id="effort-status"></div>
                     </div>
-
                 </div>
 
-                <!-- Results Display -->
+                <!-- Col 3: Resultados y gráfica -->
                 <div class="result-panel">
                     <div class="result-header">
                         <div class="result-title">Cuota Mensual Estimada</div>
@@ -196,16 +210,13 @@
                         <div class="breakdown-value" id="mortgage-total-res" style="font-size: 1.4rem;">242.485,20 €</div>
                     </div>
 
-                    <!-- SVG Chart for Visual Ratio -->
                     <div class="chart-container">
-                        <svg class="chart-svg" viewBox="0 0 100 100" id="mortgage-chart-svg">
-                            <!-- SVG Path will be generated dynamically by JS -->
-                        </svg>
+                        <svg class="chart-svg" viewBox="0 0 100 100" id="mortgage-chart-svg"></svg>
                         <div class="chart-tooltip" id="mortgage-tooltip">Tooltip</div>
                     </div>
-                    <!-- Chart Legend: always visible -->
                     <div id="mortgage-chart-legend" style="display:flex; justify-content:center; gap:2rem; margin-top:1rem; flex-wrap:wrap;"></div>
                 </div>
+
             </div>
         </section>
 
@@ -218,7 +229,8 @@
             </div>
 
             <div class="tool-container">
-                <!-- Inputs -->
+
+                <!-- Col 1: Parámetros -->
                 <div class="card">
                     <div class="card-title"><i class="fa-solid fa-sliders"></i> Ajustar Parámetros</div>
 
@@ -228,7 +240,7 @@
                             <span class="input-prefix">€</span>
                             <input type="number" id="compound-initial" class="prefixed" value="5000" min="0" step="500" oninput="calculateCompound()">
                         </div>
-                        <input type="range" id="compound-initial-range" min="0" max="5000000" step="10000" value="5000" oninput="syncRangeInput('compound-initial', this.value); calculateCompound();">
+                        <input type="range" id="compound-initial-range" min="0" max="10000000" step="10000" value="5000" oninput="syncRangeInput('compound-initial', this.value); calculateCompound();">
                     </div>
 
                     <div class="form-group">
@@ -237,55 +249,52 @@
                             <span class="input-prefix">€</span>
                             <input type="number" id="compound-monthly" class="prefixed" value="200" min="0" step="25" oninput="calculateCompound()">
                         </div>
-                        <input type="range" id="compound-monthly-range" min="0" max="20000" step="100" value="200" oninput="syncRangeInput('compound-monthly', this.value); calculateCompound();">
+                        <input type="range" id="compound-monthly-range" min="0" max="50000" step="100" value="200" oninput="syncRangeInput('compound-monthly', this.value); calculateCompound();">
                     </div>
 
                     <div class="form-group">
                         <label for="compound-rate">Rentabilidad Anual Estimada (%)</label>
                         <div class="input-wrapper">
-                            <input type="number" id="compound-rate" class="suffixed" value="7" min="0.1" max="30" step="0.1" oninput="calculateCompound()">
+                            <input type="number" id="compound-rate" class="suffixed" value="7" min="0.1" max="50" step="0.1" oninput="calculateCompound()">
                             <span class="input-suffix">%</span>
                         </div>
-                        <input type="range" id="compound-rate-range" min="1" max="30" step="0.25" value="7" oninput="syncRangeInput('compound-rate', this.value); calculateCompound();">
+                        <input type="range" id="compound-rate-range" min="1" max="50" step="0.25" value="7" oninput="syncRangeInput('compound-rate', this.value); calculateCompound();">
                     </div>
 
-<div class="form-group">
-    <label for="compound-years">Horizonte Temporal (Años)</label>
-    <div class="input-wrapper">
-        <input type="number" id="compound-years" class="suffixed" value="20" min="1" max="100" step="1" oninput="calculateCompound()">
-        <span class="input-suffix">Años</span>
-    </div>
-    <input type="range" id="compound-years-range" min="2" max="100" step="1" value="20" oninput="syncRangeInput('compound-years', this.value); calculateCompound();">
-</div>
-
-<!-- Results Display -->
-<div class="result-panel">
-    <div class="result-header">
-        <div class="result-title">Capital Final Acumulado</div>
-        <div class="result-main-value" id="compound-final">109.117,14 €</div>
-    </div>
-
-    <div class="result-breakdown">
-        <div class="breakdown-item">
-            <div class="breakdown-label">Tus Aportaciones Totales</div>
-            <div class="breakdown-value" id="compound-contributions">53.000,00 €</div>
-        </div>
-        <div class="breakdown-item">
-            <div class="breakdown-label">Intereses Acumulados</div>
-            <div class="breakdown-value" id="compound-interest-res" style="color: var(--primary);">56.117,14 €</div>
-        </div>
-    </div>
-
-    <!-- Dynamic SVG Bar Chart for Projections -->
-    <div class="chart-container" style="height: 250px;">
-        <svg class="chart-svg" id="compound-chart-svg" viewBox="0 0 400 200">
-            <!-- Dynamic Bars and Axes will be drawn here -->
-        </svg>
-        <div class="chart-tooltip" id="compound-tooltip">Tooltip</div>
-    </div>
-
-</div>
+                    <div class="form-group">
+                        <label for="compound-years">Horizonte Temporal (Años)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="compound-years" class="suffixed" value="20" min="1" max="100" step="1" oninput="calculateCompound()">
+                            <span class="input-suffix">Años</span>
+                        </div>
+                        <input type="range" id="compound-years-range" min="2" max="100" step="1" value="20" oninput="syncRangeInput('compound-years', this.value); calculateCompound();">
+                    </div>
                 </div>
+
+                <!-- Col 2: Resultados y gráfica -->
+                <div class="result-panel">
+                    <div class="result-header">
+                        <div class="result-title">Capital Final Acumulado</div>
+                        <div class="result-main-value" id="compound-final">109.117,14 €</div>
+                    </div>
+
+                    <div class="result-breakdown">
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Tus Aportaciones Totales</div>
+                            <div class="breakdown-value" id="compound-contributions">53.000,00 €</div>
+                        </div>
+                        <div class="breakdown-item">
+                            <div class="breakdown-label">Intereses Acumulados</div>
+                            <div class="breakdown-value" id="compound-interest-res" style="color: var(--primary);">56.117,14 €</div>
+                        </div>
+                    </div>
+
+                    <div class="chart-container" style="height: 250px;">
+                        <svg class="chart-svg" id="compound-chart-svg" viewBox="0 0 400 200"></svg>
+                        <div class="chart-tooltip" id="compound-tooltip">Tooltip</div>
+                    </div>
+                </div>
+
             </div>
         </section>
 

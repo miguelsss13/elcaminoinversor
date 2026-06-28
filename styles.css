@@ -460,8 +460,15 @@ input[type="range"] {
     align-items: start;
 }
 
+.tool-container-3col {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
 @media (max-width: 968px) {
     .tool-container {
+        grid-template-columns: 1fr;
+    }
+    .tool-container-3col {
         grid-template-columns: 1fr;
     }
     .dashboard-grid {

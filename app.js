@@ -87,6 +87,10 @@ function calculateMortgage() {
     document.getElementById('mortgage-interest-res').innerText = formatEuro(totalInterest);
     document.getElementById('mortgage-total-res').innerText = formatEuro(totalPaid);
 
+    // Sync cuota in the middle comparison column
+    const cuotaCompareEl = document.getElementById('effort-cuota-compare');
+    if (cuotaCompareEl) cuotaCompareEl.innerText = formatEuro(monthlyPayment);
+
     // Update Donut Chart
     drawMortgageChart(amount, totalInterest);
 
