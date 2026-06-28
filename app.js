@@ -656,11 +656,12 @@ const DEFAULT_TRANSACTIONS = [
 let transactions = [];
 
 function initCashFlowSheet() {
-    // Set date input to today
-    const dateInput = document.getElementById('tx-date');
-    if (dateInput) {
-        dateInput.value = new Date().toISOString().split('T')[0];
-    }
+    // Set month/year selects to current date
+    const now = new Date();
+    const monthEl = document.getElementById('tx-month');
+    const yearEl = document.getElementById('tx-year');
+    if (monthEl) monthEl.value = String(now.getMonth() + 1).padStart(2, '0');
+    if (yearEl) yearEl.value = String(now.getFullYear());
 
     // Set categories based on default expense selection
     adjustCategories('expense');
@@ -709,8 +710,8 @@ function renderTransactions() {
         const amtFormatted = tx.type === 'income' ? `+${formatEuro(tx.amount)}` : `-${formatEuro(tx.amount)}`;
         const amtClass = tx.type === 'income' ? 'income-type' : 'expense-type';
 
-        // Format Date nicely
-        const cleanDate = new Date(tx.date).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
+        // Format Date as month + year
+        const cleanDate = new Date(tx.date + 'T00:00:00').toLocaleDateString('es-ES', { month: 'short', year: 'numeric' });
 
         txList.innerHTML += `
             <tr>
@@ -749,6 +750,83 @@ function renderTransactions() {
         badgeSavings.innerText = `Tasa de Ahorro Mensual: ${savingsRate.toFixed(1)}% (Déficit)`;
         badgeSavings.style.color = "var(--danger)";
     }
+
+    drawCashflowChart();
+}
+
+function drawCashflowChart() {
+    const svg = document.getElementById('cashflow-chart-svg');
+    if (!svg) return;
+
+    const MONTHS = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+    const currentYear = new Date().getFullYear();
+
+    const incomeByMonth = new Array(12).fill(0);
+    const expenseByMonth = new Array(12).fill(0);
+
+    transactions.forEach(tx => {
+        const d = new Date(tx.date + 'T00:00:00');
+        if (d.getFullYear() === currentYear) {
+            const m = d.getMonth();
+            if (tx.type === 'income') incomeByMonth[m] += tx.amount;
+            else expenseByMonth[m] += tx.amount;
+        }
+    });
+
+    const maxVal = Math.max(...incomeByMonth, ...expenseByMonth, 1);
+
+    const W = 500, H = 230;
+    const pad = { top: 20, right: 20, bottom: 35, left: 65 };
+    const chartW = W - pad.left - pad.right;
+    const chartH = H - pad.top - pad.bottom;
+    const slotW = chartW / 12;
+    const barW = slotW * 0.33;
+    let html = '';
+
+    // Y-axis grid and labels
+    for (let i = 0; i <= 4; i++) {
+        const val = (maxVal / 4) * i;
+        const y = H - pad.bottom - (chartH / 4) * i;
+        html += `<line x1="${pad.left}" y1="${y}" x2="${W - pad.right}" y2="${y}" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>`;
+        html += `<text x="${pad.left - 6}" y="${y + 4}" fill="var(--text-muted)" font-size="7.5" text-anchor="end">${formatShortEuro(val)}</text>`;
+    }
+
+    // Bars
+    MONTHS.forEach((name, i) => {
+        const x = pad.left + i * slotW;
+        const gap = slotW * 0.04;
+
+        if (incomeByMonth[i] > 0) {
+            const h = (incomeByMonth[i] / maxVal) * chartH;
+            const y = H - pad.bottom - h;
+            html += `<rect class="cf-bar" x="${x + gap}" y="${y}" width="${barW}" height="${h}" fill="var(--primary)" rx="2" data-tip="${name}: Ingresos ${formatEuro(incomeByMonth[i])}"/>`;
+        }
+        if (expenseByMonth[i] > 0) {
+            const h = (expenseByMonth[i] / maxVal) * chartH;
+            const y = H - pad.bottom - h;
+            html += `<rect class="cf-bar" x="${x + barW + gap * 2}" y="${y}" width="${barW}" height="${h}" fill="var(--danger)" rx="2" data-tip="${name}: Gastos ${formatEuro(expenseByMonth[i])}"/>`;
+        }
+
+        html += `<text x="${x + slotW / 2}" y="${H - pad.bottom + 14}" fill="var(--text-muted)" font-size="7" text-anchor="middle">${name}</text>`;
+    });
+
+    svg.innerHTML = html;
+
+    // Tooltips
+    const tooltip = document.getElementById('cashflow-chart-tooltip');
+    if (tooltip) {
+        svg.querySelectorAll('.cf-bar').forEach(bar => {
+            bar.style.cursor = 'pointer';
+            bar.addEventListener('mousemove', e => {
+                tooltip.style.opacity = 1;
+                tooltip.innerHTML = bar.getAttribute('data-tip');
+                const rect = svg.getBoundingClientRect();
+                tooltip.style.left = `${e.clientX - rect.left + 15}px`;
+                tooltip.style.top = `${e.clientY - rect.top - 30}px`;
+            });
+            bar.addEventListener('mouseleave', () => { tooltip.style.opacity = 0; });
+        });
+    }
 }
 
 function addTransaction(e) {
@@ -758,9 +836,11 @@ function addTransaction(e) {
     const type = document.getElementById('tx-type').value;
     const category = document.getElementById('tx-category').value;
     const amount = parseFloat(document.getElementById('tx-amount').value) || 0;
-    const date = document.getElementById('tx-date').value;
+    const month = document.getElementById('tx-month').value;
+    const year = document.getElementById('tx-year').value;
+    const date = `${year}-${month}-01`;
 
-    if (amount <= 0 || !concept || !date) return;
+    if (amount <= 0 || !concept) return;
 
     const newTx = {
         id: Date.now(),

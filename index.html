@@ -424,8 +424,29 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="tx-date">Fecha</label>
-                            <input type="date" id="tx-date" required>
+                            <label>Mes</label>
+                            <div style="display:flex; gap:0.5rem;">
+                                <select id="tx-month" style="flex:2; padding:0.6rem 0.8rem; background:var(--card-bg); color:var(--text-primary); border:1px solid var(--border-accent); border-radius:8px; font-size:0.9rem;">
+                                    <option value="01">Enero</option>
+                                    <option value="02">Febrero</option>
+                                    <option value="03">Marzo</option>
+                                    <option value="04">Abril</option>
+                                    <option value="05">Mayo</option>
+                                    <option value="06">Junio</option>
+                                    <option value="07">Julio</option>
+                                    <option value="08">Agosto</option>
+                                    <option value="09">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11">Noviembre</option>
+                                    <option value="12">Diciembre</option>
+                                </select>
+                                <select id="tx-year" style="flex:1; padding:0.6rem 0.8rem; background:var(--card-bg); color:var(--text-primary); border:1px solid var(--border-accent); border-radius:8px; font-size:0.9rem;">
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                    <option value="2026" selected>2026</option>
+                                    <option value="2027">2027</option>
+                                </select>
+                            </div>
                         </div>
 
                         <button type="submit" class="btn btn-primary" style="width: 100%;"><i class="fa-solid fa-check"></i> Registrar</button>
@@ -456,6 +477,25 @@
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <span style="color: var(--text-secondary); font-size: 0.9rem;" id="saving-ratio-badge">Proporción de Ahorro: 0.00%</span>
                         <button class="btn btn-danger btn-sm" onclick="clearTransactions()"><i class="fa-solid fa-trash-can"></i> Limpiar Todo</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly bar chart -->
+            <div class="card" style="margin-top: 2rem;">
+                <div class="card-title"><i class="fa-solid fa-chart-column"></i> Evolución Mensual: Ingresos vs Gastos</div>
+                <div class="chart-container" style="height: 280px;">
+                    <svg id="cashflow-chart-svg" class="chart-svg" viewBox="0 0 500 230" style="width:100%; height:100%;"></svg>
+                    <div class="chart-tooltip" id="cashflow-chart-tooltip">Tooltip</div>
+                </div>
+                <div style="display:flex; justify-content:center; gap:2rem; margin-top:0.75rem; padding-bottom:0.25rem;">
+                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                        <span style="width:12px; height:12px; background:var(--primary); border-radius:2px; display:inline-block;"></span>
+                        <span style="font-size:0.82rem; color:var(--text-secondary);">Ingresos</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:0.5rem;">
+                        <span style="width:12px; height:12px; background:var(--danger); border-radius:2px; display:inline-block;"></span>
+                        <span style="font-size:0.82rem; color:var(--text-secondary);">Gastos</span>
                     </div>
                 </div>
             </div>
