@@ -81,7 +81,7 @@ function calculateMortgage() {
         totalInterest = totalPaid - amount;
     }
 
-    // Render results
+        // Render results
     document.getElementById('mortgage-monthly').innerText = formatEuro(monthlyPayment);
     document.getElementById('mortgage-capital-res').innerText = formatEuro(amount);
     document.getElementById('mortgage-interest-res').innerText = formatEuro(totalInterest);
@@ -89,7 +89,96 @@ function calculateMortgage() {
 
     // Update Donut Chart
     drawMortgageChart(amount, totalInterest);
+
+    // Effort calculation (35% of net salary)
+    const salaryInput = document.getElementById('salary-input');
+    const salary = parseFloat(salaryInput?.value) || 0;
+    const effort = salary * 0.35;
+    const effortEl = document.getElementById('effort-rate');
+    if (effortEl) effortEl.innerText = formatEuro(effort);
+
+    // Status OK/KO based on monthly payment vs effort
+    const statusEl = document.getElementById('effort-status');
+    if (statusEl) {
+      if (monthlyPayment <= effort) {
+        statusEl.innerText = 'OK';
+        statusEl.style.color = 'var(--primary)';
+      } else {
+        statusEl.innerText = 'KO';
+        statusEl.style.color = 'var(--danger)';
+      }
+    }
 }
+
+// Increase loan amount by 5000
+function increaseLoan() {
+  const amountInput = document.getElementById('mortgage-amount');
+  let amt = parseFloat(amountInput.value) || 0;
+  amt += 5000;
+  amountInput.value = amt;
+  const range = document.getElementById('mortgage-amount-range');
+  if (range) range.value = amt;
+  calculateMortgage();
+}
+
+// Export calculation data to CSV
+function exportCsv() {
+  const salary = parseFloat(document.getElementById('salary-input')?.value) || 0;
+  const amount = parseFloat(document.getElementById('mortgage-amount')?.value) || 0;
+  const interest = parseFloat(document.getElementById('mortgage-interest')?.value) || 0;
+  const term = parseInt(document.getElementById('mortgage-term')?.value) || 0;
+  const effort = salary * 0.35;
+  const monthly = document.getElementById('mortgage-monthly').innerText.replace(/[^0-9,.-]/g, '');
+  const totalInterest = document.getElementById('mortgage-interest-res').innerText.replace(/[^0-9,.-]/g, '');
+  const totalPaid = document.getElementById('mortgage-total-res').innerText.replace(/[^0-9,.-]/g, '');
+  const csvLines = [
+    ['Salario', salary],
+    ['Esfuerzo (35%)', effort],
+    ['Importe Préstamo', amount],
+    ['Interés Anual (%)', interest],
+    ['Plazo (Años)', term],
+    ['Cuota Mensual', monthly],
+    ['Intereses Totales', totalInterest],
+    ['Total a Pagar', totalPaid]
+  ];
+  const csvContent = csvLines.map(e => e.join(',')).join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'hipoteca_calculo.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Export compound interest calculation to CSV
+function exportCompoundCsv() {
+  const initial = parseFloat(document.getElementById('compound-initial')?.value) || 0;
+  const monthly = parseFloat(document.getElementById('compound-monthly')?.value) || 0;
+  const rate = parseFloat(document.getElementById('compound-rate')?.value) || 0;
+  const years = parseInt(document.getElementById('compound-years')?.value) || 0;
+  const finalAmount = document.getElementById('compound-final').innerText.replace(/[^0-9,.-]/g, '');
+  const contributions = document.getElementById('compound-contributions').innerText.replace(/[^0-9,.-]/g, '');
+  const interest = document.getElementById('compound-interest-res').innerText.replace(/[^0-9,.-]/g, '');
+  const csvLines = [
+    ['Inversión Inicial (€)', initial],
+    ['Aportación Mensual (€)', monthly],
+    ['Rentabilidad Anual Estimada (%)', rate],
+    ['Horizonte Temporal (Años)', years],
+    ['Capital Final Acumulado (€)', finalAmount],
+    ['Aportaciones Totales (€)', contributions],
+    ['Intereses Acumulados (€)', interest]
+  ];
+  const csvContent = csvLines.map(e => e.join(',')).join('\n');
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'interes_compuesto.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
 
 function drawMortgageChart(capital, interest) {
     const svg = document.getElementById('mortgage-chart-svg');

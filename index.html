@@ -137,15 +137,41 @@
                         <input type="range" id="mortgage-interest-range" min="0.5" max="10" step="0.05" value="3.5" oninput="syncRangeInput('mortgage-interest', this.value); calculateMortgage();">
                     </div>
 
-                    <div class="form-group">
-                        <label for="mortgage-term">Plazo de Amortización (Años)</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="mortgage-term" class="suffixed" value="30" min="1" max="50" step="1" oninput="calculateMortgage()">
-                            <span class="input-suffix">Años</span>
-                        </div>
-                        <input type="range" id="mortgage-term-range" min="5" max="40" step="1" value="30" oninput="syncRangeInput('mortgage-term', this.value); calculateMortgage();">
-                    </div>
-                </div>
+<div class="form-group">
+    <label for="mortgage-term">Plazo de Amortización (Años)</label>
+    <div class="input-wrapper">
+        <input type="number" id="mortgage-term" class="suffixed" value="30" min="1" max="50" step="1" oninput="calculateMortgage()">
+        <span class="input-suffix">Años</span>
+    </div>
+    <input type="range" id="mortgage-term-range" min="5" max="40" step="1" value="30" oninput="syncRangeInput('mortgage-term', this.value); calculateMortgage();">
+</div>
+</div>
+
+<!-- Salary Input -->
+<div class="form-group">
+    <label for="salary-input">Salario Neto Mensual (€)</label>
+    <div class="input-wrapper">
+        <span class="input-prefix">€</span>
+        <input type="number" id="salary-input" class="prefixed" value="3000" min="0" step="100" oninput="calculateMortgage()">
+    </div>
+</div>
+
+<!-- Increase Loan Button -->
+<div class="form-group">
+    <button class="btn btn-secondary" id="increase-loan-btn" onclick="increaseLoan()">+ Incrementar Importe Préstamo</button>
+</div>
+
+<!-- Effort Rate and Status -->
+<div class="form-group">
+    <label>Esfuerzo Disponible (35% Salario)</label>
+    <div class="breakdown-value" id="effort-rate">0,00 €</div>
+    <span id="effort-status" class="effort-status"></span>
+</div>
+
+<!-- Export CSV Button -->
+<div class="form-group">
+    <button class="btn btn-primary" id="export-btn" onclick="exportCsv()">Exportar CSV</button>
+</div>
 
                 <!-- Results Display -->
                 <div class="result-panel">
@@ -192,15 +218,13 @@
             <div class="tool-container">
                 <!-- Inputs -->
                 <div class="card">
-                    <div class="card-title"><i class="fa-solid fa-sliders"></i> Configura tu Simulación</div>
-                    
-                    <div class="form-group">
+                    <div class="card-title"><i class="fa-solid fa-s                    <div class="form-group">
                         <label for="compound-initial">Inversión Inicial (€)</label>
                         <div class="input-wrapper">
                             <span class="input-prefix">€</span>
                             <input type="number" id="compound-initial" class="prefixed" value="5000" min="0" step="500" oninput="calculateCompound()">
                         </div>
-                        <input type="range" id="compound-initial-range" min="0" max="100000" step="1000" value="5000" oninput="syncRangeInput('compound-initial', this.value); calculateCompound();">
+                        <input type="range" id="compound-initial-range" min="0" max="5000000" step="10000" value="5000" oninput="syncRangeInput('compound-initial', this.value); calculateCompound();">
                     </div>
 
                     <div class="form-group">
@@ -209,53 +233,56 @@
                             <span class="input-prefix">€</span>
                             <input type="number" id="compound-monthly" class="prefixed" value="200" min="0" step="25" oninput="calculateCompound()">
                         </div>
-                        <input type="range" id="compound-monthly-range" min="0" max="5000" step="50" value="200" oninput="syncRangeInput('compound-monthly', this.value); calculateCompound();">
+                        <input type="range" id="compound-monthly-range" min="0" max="20000" step="100" value="200" oninput="syncRangeInput('compound-monthly', this.value); calculateCompound();">
                     </div>
 
                     <div class="form-group">
                         <label for="compound-rate">Rentabilidad Anual Estimada (%)</label>
                         <div class="input-wrapper">
-                            <input type="number" id="compound-rate" class="suffixed" value="7" min="0.1" max="25" step="0.1" oninput="calculateCompound()">
+                            <input type="number" id="compound-rate" class="suffixed" value="7" min="0.1" max="30" step="0.1" oninput="calculateCompound()">
                             <span class="input-suffix">%</span>
                         </div>
-                        <input type="range" id="compound-rate-range" min="1" max="15" step="0.25" value="7" oninput="syncRangeInput('compound-rate', this.value); calculateCompound();">
+                        <input type="range" id="compound-rate-range" min="1" max="30" step="0.25" value="7" oninput="syncRangeInput('compound-rate', this.value); calculateCompound();">
                     </div>
 
-                    <div class="form-group">
-                        <label for="compound-years">Horizonte Temporal (Años)</label>
-                        <div class="input-wrapper">
-                            <input type="number" id="compound-years" class="suffixed" value="20" min="1" max="50" step="1" oninput="calculateCompound()">
-                            <span class="input-suffix">Años</span>
-                        </div>
-                        <input type="range" id="compound-years-range" min="2" max="45" step="1" value="20" oninput="syncRangeInput('compound-years', this.value); calculateCompound();">
-                    </div>
-                </div>
+<div class="form-group">
+    <label for="compound-years">Horizonte Temporal (Años)</label>
+    <div class="input-wrapper">
+        <input type="number" id="compound-years" class="suffixed" value="20" min="1" max="100" step="1" oninput="calculateCompound()">
+        <span class="input-suffix">Años</span>
+    </div>
+    <input type="range" id="compound-years-range" min="2" max="100" step="1" value="20" oninput="syncRangeInput('compound-years', this.value); calculateCompound();">
+</div>
 
-                <!-- Results Display -->
-                <div class="result-panel">
-                    <div class="result-header">
-                        <div class="result-title">Capital Final Acumulado</div>
-                        <div class="result-main-value" id="compound-final">109.117,14 €</div>
-                    </div>
-                    
-                    <div class="result-breakdown">
-                        <div class="breakdown-item">
-                            <div class="breakdown-label">Tus Aportaciones Totales</div>
-                            <div class="breakdown-value" id="compound-contributions">53.000,00 €</div>
-                        </div>
-                        <div class="breakdown-item">
-                            <div class="breakdown-label">Intereses Acumulados</div>
-                            <div class="breakdown-value" id="compound-interest-res" style="color: var(--primary);">56.117,14 €</div>
-                        </div>
-                    </div>
+<!-- Results Display -->
+<div class="result-panel">
+    <div class="result-header">
+        <div class="result-title">Capital Final Acumulado</div>
+        <div class="result-main-value" id="compound-final">109.117,14 €</div>
+    </div>
 
-                    <!-- Dynamic SVG Bar Chart for Projections -->
-                    <div class="chart-container" style="height: 250px;">
-                        <svg class="chart-svg" id="compound-chart-svg" viewBox="0 0 400 200">
-                            <!-- Dynamic Bars and Axes will be drawn here -->
-                        </svg>
-                        <div class="chart-tooltip" id="compound-tooltip">Tooltip</div>
-                    </div>
+    <div class="result-breakdown">
+        <div class="breakdown-item">
+            <div class="breakdown-label">Tus Aportaciones Totales</div>
+            <div class="breakdown-value" id="compound-contributions">53.000,00 €</div>
+        </div>
+        <div class="breakdown-item">
+            <div class="breakdown-label">Intereses Acumulados</div>
+            <div class="breakdown-value" id="compound-interest-res" style="color: var(--primary);">56.117,14 €</div>
+        </div>
+    </div>
+
+    <!-- Dynamic SVG Bar Chart for Projections -->
+    <div class="chart-container" style="height: 250px;">
+        <svg class="chart-svg" id="compound-chart-svg" viewBox="0 0 400 200">
+            <!-- Dynamic Bars and Axes will be drawn here -->
+        </svg>
+        <div class="chart-tooltip" id="compound-tooltip">Tooltip</div>
+    </div>
+
+    <!-- Export CSV Button -->
+    <button class="btn btn-primary btn-sm" onclick="exportCompoundCsv()">Exportar CSV</button>
+</div>
                 </div>
             </div>
         </section>
@@ -339,6 +366,21 @@
                     <button class="btn btn-secondary" onclick="switchTab('contacto')"><i class="fa-solid fa-user-tie"></i> Optimizar mi Patrimonio con un Asesor</button>
                 </div>
             </div>
+<!-- Patrimonio Charts Section -->
+<div id="patrimonio-charts" style="margin-top: 2rem;">
+    <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+        <label for="patrimonio-month-select">Mes:</label>
+        <select id="patrimonio-month-select" onchange="onPatrimonioMonthChange(this.value)" style="padding:0.4rem 0.6rem; background: var(--card-bg); color: var(--text-primary); border:1px solid var(--border-accent); border-radius:4px;">
+        </select>
+        <button class="btn btn-primary btn-sm" onclick="savePatrimonioSnapshot()">Guardar Snapshot</button>
+        <button class="btn btn-primary btn-sm" onclick="exportPatrimonioCsv()">Exportar CSV</button>
+    </div>
+    <canvas id="assetsChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
+    <canvas id="liabilitiesChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
+    <canvas id="netWorthChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
+</div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         </section>
 
         <!-- 5. CASH FLOW SHEET -->
@@ -422,6 +464,19 @@
                 </div>
             </div>
         </section>
+<!-- Cash Flow Charts Section -->
+<div id="cashflow-charts" style="margin-top: 2rem;">
+  <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1rem;">
+    <label for="cashflow-month-select">Mes:</label>
+    <select id="cashflow-month-select" onchange="onCashflowMonthChange(this.value)" style="padding:0.4rem 0.6rem; background: var(--card-bg); color: var(--text-primary); border:1px solid var(--border-accent); border-radius:4px;"></select>
+    <button class="btn btn-primary btn-sm" onclick="saveCashflowSnapshot()">Guardar Snapshot</button>
+    <button class="btn btn-primary btn-sm" onclick="exportCashflowCsv()">Exportar CSV</button>
+  </div>
+  <canvas id="incomeChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
+  <canvas id="expenseChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
+  <canvas id="savingsChart" style="max-width:100%; height:250px; margin-bottom:1rem;"></canvas>
+</div>
+</section>
 
         <!-- 6. BLOG SECTION -->
         <section id="blog" class="page-section">
