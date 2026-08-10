@@ -21,6 +21,7 @@
             <nav>
                 <ul>
                     <li><span class="nav-link active" onclick="switchTab('panel')" id="nav-panel"><i class="fa-solid fa-house"></i> Panel</span></li>
+                    <li><span class="nav-link" onclick="switchTab('test')" id="nav-test"><i class="fa-solid fa-clipboard-check"></i> Test Inversor</span></li>
                     <li><span class="nav-link" onclick="switchTab('hipoteca')" id="nav-hipoteca"><i class="fa-solid fa-house-laptop"></i> Hipotecas</span></li>
                     <li><span class="nav-link" onclick="switchTab('interes')" id="nav-interes"><i class="fa-solid fa-arrow-up-right-dots"></i> Interés Compuesto</span></li>
                     <li><span class="nav-link" onclick="switchTab('patrimonio')" id="nav-patrimonio"><i class="fa-solid fa-vault"></i> Patrimonio</span></li>
@@ -577,6 +578,16 @@
                     </form>
                 </div>
             </div>
+        </section>
+
+        <!-- TEST DE IDONEIDAD MIFID II -->
+        <section id="test" class="page-section">
+            <div class="hero">
+                <div class="badge">MIFID II · 5 Perfiles</div>
+                <h1>Test de <span>Idoneidad</span> Inversor</h1>
+                <p>10 preguntas para descubrir tu perfil de riesgo y qué cartera modelo se adapta mejor a ti.</p>
+            </div>
+            <div id="test-container"></div>
         </section>
 
     </main>

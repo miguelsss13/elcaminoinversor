@@ -1098,6 +1098,481 @@ function resetContactForm() {
 
 
 // ==========================================
+// TEST DE IDONEIDAD MIFID II
+// ==========================================
+
+const TEST_QUESTIONS = [
+    {
+        id: 1, block: 'Conocimiento y Experiencia', blockIcon: 'fa-graduation-cap',
+        question: '¿Cuál es tu nivel de conocimiento sobre productos de inversión?',
+        options: [
+            { text: 'Ninguno — nunca he invertido ni estudiado finanzas', score: 1 },
+            { text: 'Básico — conozco depósitos, cuentas de ahorro y renta fija', score: 2 },
+            { text: 'Intermedio — he operado con fondos de inversión, ETFs o acciones', score: 3 },
+            { text: 'Avanzado — uso productos complejos: derivados, opciones, CFDs...', score: 4 }
+        ]
+    },
+    {
+        id: 2, block: 'Conocimiento y Experiencia', blockIcon: 'fa-graduation-cap',
+        question: '¿Has invertido anteriormente en alguno de estos productos financieros?',
+        options: [
+            { text: 'Nunca — solo tengo dinero en cuentas corrientes o depósitos', score: 1 },
+            { text: 'Sí, en fondos de renta fija o productos de bajo riesgo', score: 2 },
+            { text: 'Sí, en fondos de renta variable, ETFs o acciones cotizadas', score: 3 },
+            { text: 'Sí, incluyendo productos complejos: futuros, opciones, CFDs, etc.', score: 4 }
+        ]
+    },
+    {
+        id: 3, block: 'Situación Financiera', blockIcon: 'fa-wallet',
+        question: '¿Qué porcentaje de tus ingresos mensuales destinas a gastos fijos (vivienda, alimentación, suministros, transporte)?',
+        options: [
+            { text: 'Más del 75% — mis ingresos apenas cubren mis gastos', score: 1 },
+            { text: 'Entre el 50% y el 75% — ahorro solo una parte pequeña', score: 2 },
+            { text: 'Entre el 25% y el 50% — tengo una buena capacidad de ahorro', score: 3 },
+            { text: 'Menos del 25% — ahorro la gran mayoría de mis ingresos', score: 4 }
+        ]
+    },
+    {
+        id: 4, block: 'Situación Financiera', blockIcon: 'fa-wallet',
+        question: '¿Qué porcentaje de tu patrimonio total (ahorros + inversiones actuales) representa el capital que quieres invertir ahora?',
+        options: [
+            { text: 'Más del 75% — es prácticamente todo lo que tengo ahorrado', score: 1 },
+            { text: 'Entre el 50% y el 75% del total', score: 2 },
+            { text: 'Entre el 25% y el 50% del total', score: 3 },
+            { text: 'Menos del 25% — es solo una parte de un patrimonio mayor', score: 4 }
+        ]
+    },
+    {
+        id: 5, block: 'Situación Financiera', blockIcon: 'fa-wallet',
+        question: '¿Tienes un fondo de emergencia en liquidez (dinero accesible para imprevistos, sin tocar la inversión)?',
+        options: [
+            { text: 'No tengo fondo de emergencia', score: 1 },
+            { text: 'Tengo liquidez para aproximadamente 1-2 meses de gastos', score: 2 },
+            { text: 'Tengo liquidez para cubrir entre 3 y 6 meses de gastos', score: 3 },
+            { text: 'Tengo más de 6 meses cubiertos — este dinero no lo necesito', score: 4 }
+        ]
+    },
+    {
+        id: 6, block: 'Horizonte Temporal', blockIcon: 'fa-calendar-days',
+        question: '¿En cuánto tiempo podrías necesitar recuperar el dinero que vas a invertir?',
+        options: [
+            { text: 'En menos de 2 años', score: 1 },
+            { text: 'Entre 2 y 5 años', score: 2 },
+            { text: 'Entre 5 y 10 años', score: 3 },
+            { text: 'En más de 10 años — o simplemente no lo necesito a corto plazo', score: 4 }
+        ]
+    },
+    {
+        id: 7, block: 'Horizonte Temporal', blockIcon: 'fa-calendar-days',
+        question: '¿Cuál es tu objetivo principal al invertir?',
+        options: [
+            { text: 'Preservar mi capital y que no pierda valor con la inflación', score: 1 },
+            { text: 'Obtener una rentabilidad modesta con la mayor estabilidad posible', score: 2 },
+            { text: 'Hacer crecer mi patrimonio a largo plazo, aceptando cierta volatilidad', score: 3 },
+            { text: 'Maximizar la rentabilidad, asumiendo pérdidas temporales importantes', score: 4 }
+        ]
+    },
+    {
+        id: 8, block: 'Tolerancia al Riesgo', blockIcon: 'fa-shield-halved',
+        question: 'Imagina que tu cartera cae un 25% en un año. ¿Qué harías?',
+        options: [
+            { text: 'Vendería todo para evitar más pérdidas', score: 1 },
+            { text: 'Vendería una parte para reducir el riesgo', score: 2 },
+            { text: 'Mantendría mi posición, confiando en la recuperación a largo plazo', score: 3 },
+            { text: 'Aprovecharía para comprar más a precios más bajos', score: 4 }
+        ]
+    },
+    {
+        id: 9, block: 'Tolerancia al Riesgo', blockIcon: 'fa-shield-halved',
+        question: '¿Cuál de estas combinaciones de rentabilidad esperada / pérdida máxima anual encaja mejor contigo?',
+        options: [
+            { text: '2–3% anual, con pérdida máxima de ≈ –5% en el peor año', score: 1 },
+            { text: '4–6% anual, con pérdida máxima de ≈ –15% en el peor año', score: 2 },
+            { text: '6–9% anual, con pérdida máxima de ≈ –30% en el peor año', score: 3 },
+            { text: '+9% anual, aceptando caídas del –40% o más en crisis severas', score: 4 }
+        ]
+    },
+    {
+        id: 10, block: 'Tolerancia al Riesgo', blockIcon: 'fa-shield-halved',
+        question: '¿Cómo describirías tu actitud emocional ante las fluctuaciones del mercado?',
+        options: [
+            { text: 'Me genera mucha ansiedad ver pérdidas en mi cartera, aunque sean temporales', score: 1 },
+            { text: 'Lo entiendo racionalmente, pero las caídas me incomodan y me preocupan', score: 2 },
+            { text: 'Soy disciplinado/a: sé que las caídas forman parte del ciclo inversor', score: 3 },
+            { text: 'La volatilidad no me preocupa en absoluto — es la oportunidad de comprar barato', score: 4 }
+        ]
+    }
+];
+
+const TEST_PROFILES = [
+    {
+        id: 1, minScore: 10, maxScore: 15,
+        name: 'Conservador',
+        color: '#4A90D9', bg: 'rgba(74,144,217,0.1)', border: 'rgba(74,144,217,0.35)',
+        icon: 'fa-shield-halved', tagline: 'Seguridad ante todo',
+        description: 'Tu prioridad es la seguridad del capital. Prefieres rentabilidades predecibles y modestas. Las pérdidas temporales te generan inquietud y tu horizonte de inversión es corto o medio plazo.',
+        rvPct: 15, rfPct: 85,
+        maxLoss: '≈ –5% en un año muy adverso',
+        expectedReturn: '2 – 3% anual estimado',
+        instruments: ['Fondos monetarios y de renta fija corto plazo', 'ETFs de bonos Investment Grade', 'Depósitos garantizados', 'Letras del Tesoro'],
+        platforms: ['MyInvestor – cartera conservadora', 'Renta 4 – Fondos Renta Fija', 'Finizens – perfil 1 o 2']
+    },
+    {
+        id: 2, minScore: 16, maxScore: 21,
+        name: 'Moderado-Conservador',
+        color: '#26A69A', bg: 'rgba(38,166,154,0.1)', border: 'rgba(38,166,154,0.35)',
+        icon: 'fa-scale-balanced', tagline: 'Estabilidad con algo de crecimiento',
+        description: 'Buscas superar la inflación sin asumir demasiado riesgo. Aceptas pequeñas oscilaciones si el horizonte temporal es suficientemente largo. La estabilidad sigue siendo tu prioridad número uno.',
+        rvPct: 30, rfPct: 70,
+        maxLoss: '≈ –12% en un año muy adverso',
+        expectedReturn: '3 – 5% anual estimado',
+        instruments: ['Fondos mixtos defensivos', 'Vanguard LifeStrategy 20% Equity', 'ETF Renta Fija Global + pequeña posición RV global', 'Indexa Capital – cartera baja'],
+        platforms: ['Indexa Capital – perfil 3-4', 'Finizens – perfil 3', 'MyInvestor']
+    },
+    {
+        id: 3, minScore: 22, maxScore: 27,
+        name: 'Moderado',
+        color: '#10b981', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.35)',
+        icon: 'fa-chart-line', tagline: 'Crecimiento equilibrado',
+        description: 'Equilibras crecimiento y seguridad. Tienes un horizonte temporal medio-largo, entiendes los ciclos de mercado y puedes tolerar caídas temporales sin entrar en pánico.',
+        rvPct: 60, rfPct: 40,
+        maxLoss: '≈ –25% en un año muy adverso',
+        expectedReturn: '5 – 7% anual estimado',
+        instruments: ['ETF MSCI World (iShares SWDA o Vanguard VWRL)', 'Vanguard LifeStrategy 60% Equity', 'Fondo indexado global + fondo de renta fija', 'Indexa Capital – cartera media'],
+        platforms: ['Indexa Capital – perfil 5-6', 'MyInvestor', 'Trade Republic']
+    },
+    {
+        id: 4, minScore: 28, maxScore: 33,
+        name: 'Moderado-Agresivo',
+        color: '#f59e0b', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.35)',
+        icon: 'fa-arrow-trend-up', tagline: 'Crecimiento a largo plazo',
+        description: 'Tu objetivo principal es el crecimiento patrimonial. Tienes experiencia inversora, conoces los ciclos de mercado y puedes mantenerte invertido durante caídas significativas sin vender.',
+        rvPct: 80, rfPct: 20,
+        maxLoss: '≈ –35% en un año de crisis severa',
+        expectedReturn: '7 – 10% anual estimado',
+        instruments: ['ETF MSCI World', 'ETF S&P 500', 'ETF Mercados Emergentes (posición menor)', 'Vanguard LifeStrategy 80% Equity'],
+        platforms: ['Trade Republic', 'MyInvestor', 'Degiro']
+    },
+    {
+        id: 5, minScore: 34, maxScore: 40,
+        name: 'Agresivo',
+        color: '#ef4444', bg: 'rgba(239,68,68,0.1)', border: 'rgba(239,68,68,0.35)',
+        icon: 'fa-rocket', tagline: 'Máxima rentabilidad a largo plazo',
+        description: 'Maximizar la rentabilidad es tu objetivo prioritario. Tienes amplio conocimiento de mercados, un horizonte de +10 años y capacidad real para soportar pérdidas temporales sin comprometer tu situación.',
+        rvPct: 95, rfPct: 5,
+        maxLoss: '≈ –50% en una crisis severa (tipo 2008)',
+        expectedReturn: '> 9% anual estimado (largo plazo histórico)',
+        instruments: ['ETF MSCI All Countries World (ACWI)', 'ETF S&P 500', 'ETFs sectoriales (tecnología, salud, energía)', 'ETFs Mercados Emergentes', 'Small Cap ETFs'],
+        platforms: ['Trade Republic', 'Degiro', 'Interactive Brokers']
+    }
+];
+
+let testState = {
+    step: 0,
+    answers: {},
+    name: '',
+    email: ''
+};
+
+function initTest() {
+    try {
+        const saved = localStorage.getItem('eci_test_result');
+        if (saved) {
+            const data = JSON.parse(saved);
+            testState = data;
+            testState.step = TEST_QUESTIONS.length + 2;
+        }
+    } catch (e) {
+        testState = { step: 0, answers: {}, name: '', email: '' };
+    }
+    renderTest();
+}
+
+function startTest() {
+    testState = { step: 1, answers: {}, name: '', email: '' };
+    renderTest();
+}
+
+function resetTest() {
+    localStorage.removeItem('eci_test_result');
+    testState = { step: 0, answers: {}, name: '', email: '' };
+    renderTest();
+}
+
+function renderTest() {
+    const container = document.getElementById('test-container');
+    if (!container) return;
+    if (testState.step === 0) {
+        container.innerHTML = buildTestWelcomeHTML();
+    } else if (testState.step >= 1 && testState.step <= TEST_QUESTIONS.length) {
+        container.innerHTML = buildTestQuestionHTML(testState.step - 1);
+    } else if (testState.step === TEST_QUESTIONS.length + 1) {
+        container.innerHTML = buildTestEmailHTML();
+    } else {
+        container.innerHTML = buildTestResultHTML();
+    }
+}
+
+function buildTestWelcomeHTML() {
+    return `
+        <div class="card" style="max-width:700px;margin:0 auto;text-align:center;padding:3rem 2.5rem;">
+            <div style="font-size:4rem;color:var(--secondary);margin-bottom:1.5rem;">
+                <i class="fa-solid fa-clipboard-check"></i>
+            </div>
+            <h2 style="font-size:1.75rem;font-weight:800;margin-bottom:1rem;">Test de Idoneidad MIFID II</h2>
+            <p style="color:var(--text-secondary);line-height:1.75;margin-bottom:2rem;font-size:0.95rem;">
+                Responde <strong style="color:var(--text-primary);">10 preguntas</strong> sobre tu conocimiento financiero,
+                situación económica y tolerancia al riesgo. En menos de <strong style="color:var(--text-primary);">5 minutos</strong>
+                descubrirás qué perfil inversor eres y qué cartera modelo se adapta mejor a ti.
+            </p>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;">
+                <div class="test-feature-box">
+                    <i class="fa-solid fa-graduation-cap" style="color:var(--secondary);font-size:1.4rem;"></i>
+                    <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.4;">Evaluación regulatoria MIFID II</div>
+                </div>
+                <div class="test-feature-box">
+                    <i class="fa-solid fa-user-check" style="color:var(--primary);font-size:1.4rem;"></i>
+                    <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.4;">1 de 5 perfiles posibles</div>
+                </div>
+                <div class="test-feature-box">
+                    <i class="fa-solid fa-chart-pie" style="color:var(--accent);font-size:1.4rem;"></i>
+                    <div style="font-size:0.8rem;color:var(--text-secondary);line-height:1.4;">Cartera modelo recomendada</div>
+                </div>
+            </div>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:2rem;line-height:1.55;padding:0.75rem 1rem;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;">
+                <i class="fa-solid fa-circle-info"></i>&nbsp; Aviso legal: Este test tiene carácter exclusivamente informativo y educativo. No constituye asesoramiento financiero personalizado. Para una recomendación regulada bajo MIFID II, solicita una sesión de asesoría individual.
+            </p>
+            <button class="btn btn-secondary" style="padding:1rem 3rem;font-size:1.05rem;" onclick="startTest()">
+                <i class="fa-solid fa-play"></i>&nbsp; Comenzar el test
+            </button>
+        </div>`;
+}
+
+function buildTestQuestionHTML(idx) {
+    const q = TEST_QUESTIONS[idx];
+    const progress = Math.round((idx / TEST_QUESTIONS.length) * 100);
+    const selectedScore = testState.answers[idx];
+
+    const optionsHTML = q.options.map((opt, oIdx) => {
+        const isSelected = selectedScore === opt.score;
+        return `
+            <button class="test-option${isSelected ? ' selected' : ''}"
+                    onclick="selectTestAnswer(${idx}, ${opt.score}, ${oIdx})"
+                    data-qidx="${idx}" data-oidx="${oIdx}">
+                <span class="test-option-letter">${String.fromCharCode(65 + oIdx)}</span>
+                <span class="test-option-text">${opt.text}</span>
+                ${isSelected ? '<span class="test-option-check"><i class="fa-solid fa-check"></i></span>' : '<span class="test-option-check"></span>'}
+            </button>`;
+    }).join('');
+
+    const canGoNext = selectedScore !== undefined;
+    const isLast = idx === TEST_QUESTIONS.length - 1;
+
+    return `
+        <div style="max-width:700px;margin:0 auto;">
+            <div style="margin-bottom:1.5rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;">
+                    <span style="font-size:0.8rem;color:var(--text-muted);font-weight:500;">Pregunta ${idx + 1} de ${TEST_QUESTIONS.length}</span>
+                    <span style="font-size:0.8rem;color:var(--primary);font-weight:600;">${progress}% completado</span>
+                </div>
+                <div class="test-progress-wrap"><div class="test-progress-fill" style="width:${progress}%;"></div></div>
+            </div>
+
+            <div class="card" style="padding:2rem 2.5rem;">
+                <div class="test-block-label">
+                    <i class="fa-solid ${q.blockIcon}"></i>&nbsp; ${q.block}
+                </div>
+                <h3 style="font-size:1.15rem;font-weight:700;margin-bottom:1.75rem;line-height:1.55;color:var(--text-primary);">
+                    ${q.question}
+                </h3>
+                <div class="test-options-wrap">${optionsHTML}</div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;margin-top:1.25rem;gap:1rem;">
+                ${idx > 0
+                    ? `<button class="btn" style="padding:0.75rem 1.5rem;background:rgba(255,255,255,0.06);border:1px solid var(--border-color);" onclick="testGoPrev()"><i class="fa-solid fa-arrow-left"></i> Anterior</button>`
+                    : `<span></span>`}
+                <button id="test-next-btn" class="btn btn-secondary" style="padding:0.75rem 2rem;opacity:${canGoNext ? 1 : 0.4};cursor:${canGoNext ? 'pointer' : 'not-allowed'};"
+                        onclick="testGoNext()" ${canGoNext ? '' : 'disabled'}>
+                    ${isLast ? 'Finalizar <i class="fa-solid fa-flag-checkered"></i>' : 'Siguiente <i class="fa-solid fa-arrow-right"></i>'}
+                </button>
+            </div>
+        </div>`;
+}
+
+function buildTestEmailHTML() {
+    return `
+        <div class="card" style="max-width:560px;margin:0 auto;padding:2.5rem;">
+            <div style="text-align:center;margin-bottom:2rem;">
+                <div style="font-size:3rem;color:var(--primary);margin-bottom:1rem;">
+                    <i class="fa-solid fa-envelope-open-text"></i>
+                </div>
+                <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:0.75rem;">¡Has completado el test!</h2>
+                <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.6;">
+                    Introduce tus datos para ver tu perfil inversor y recibir el informe personalizado.
+                </p>
+            </div>
+            <div class="form-group">
+                <label for="test-name">Nombre</label>
+                <input type="text" id="test-name" placeholder="Tu nombre" value="${testState.name}">
+            </div>
+            <div class="form-group">
+                <label for="test-email">Correo electrónico</label>
+                <input type="email" id="test-email" placeholder="tucorreo@ejemplo.com" value="${testState.email}">
+            </div>
+            <p style="font-size:0.76rem;color:var(--text-muted);margin-bottom:1.5rem;line-height:1.5;">
+                <i class="fa-solid fa-lock" style="color:var(--primary);"></i>&nbsp;
+                Tu correo solo se usa para enviarte el informe. Sin spam, nunca cedemos datos a terceros.
+            </p>
+            <button class="btn btn-secondary" style="width:100%;padding:1rem;font-size:1rem;" onclick="submitTestEmail()">
+                <i class="fa-solid fa-chart-pie"></i>&nbsp; Ver mi perfil inversor
+            </button>
+            <button class="btn" style="width:100%;margin-top:0.75rem;padding:0.75rem;background:transparent;border:1px solid var(--border-color);font-size:0.88rem;color:var(--text-secondary);" onclick="testGoPrev()">
+                <i class="fa-solid fa-arrow-left"></i> Volver a la última pregunta
+            </button>
+        </div>`;
+}
+
+function buildTestResultHTML() {
+    const score = Object.values(testState.answers).reduce((s, v) => s + v, 0);
+    const profile = TEST_PROFILES.find(p => score >= p.minScore && score <= p.maxScore) || TEST_PROFILES[2];
+    const nameGreeting = testState.name ? `, <strong>${testState.name}</strong>` : '';
+
+    const allocationBar = `
+        <div style="margin:1.25rem 0 1.5rem;">
+            <div style="display:flex;justify-content:space-between;font-size:0.78rem;color:var(--text-muted);margin-bottom:0.4rem;">
+                <span>Renta Variable (RV)</span><span>Renta Fija (RF)</span>
+            </div>
+            <div style="display:flex;border-radius:8px;overflow:hidden;height:38px;">
+                <div style="width:${profile.rvPct}%;background:${profile.color};display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:700;color:white;">
+                    ${profile.rvPct > 15 ? profile.rvPct + '% RV' : ''}
+                </div>
+                <div style="width:${profile.rfPct}%;background:rgba(59,130,246,0.4);display:flex;align-items:center;justify-content:center;font-size:0.82rem;font-weight:700;color:white;">
+                    ${profile.rfPct + '% RF'}
+                </div>
+            </div>
+            <div style="display:flex;justify-content:space-between;margin-top:0.35rem;font-size:0.75rem;color:var(--text-muted);">
+                <span style="color:${profile.color};font-weight:600;">${profile.rvPct}% Renta Variable</span>
+                <span style="color:rgba(59,130,246,0.8);font-weight:600;">${profile.rfPct}% Renta Fija</span>
+            </div>
+        </div>`;
+
+    const instrumentsHTML = profile.instruments.map(i =>
+        `<li style="padding:0.3rem 0;color:var(--text-secondary);font-size:0.88rem;"><i class="fa-solid fa-check" style="color:${profile.color};margin-right:0.5rem;font-size:0.75rem;"></i>${i}</li>`
+    ).join('');
+
+    const platformsHTML = profile.platforms.map(p =>
+        `<li style="padding:0.3rem 0;color:var(--text-secondary);font-size:0.88rem;"><i class="fa-solid fa-arrow-right" style="color:${profile.color};margin-right:0.5rem;font-size:0.75rem;"></i>${p}</li>`
+    ).join('');
+
+    return `
+        <div style="max-width:800px;margin:0 auto;">
+            <div style="background:${profile.bg};border:2px solid ${profile.border};border-radius:20px;padding:2.5rem;text-align:center;margin-bottom:1.5rem;">
+                <div style="font-size:0.72rem;font-weight:600;color:${profile.color};text-transform:uppercase;letter-spacing:1.5px;margin-bottom:0.75rem;">Tu perfil inversor${nameGreeting}</div>
+                <div style="font-size:3.5rem;color:${profile.color};margin-bottom:1rem;"><i class="fa-solid ${profile.icon}"></i></div>
+                <h2 style="font-size:2.5rem;font-weight:900;color:${profile.color};margin-bottom:0.5rem;letter-spacing:-0.5px;">${profile.name}</h2>
+                <div style="font-size:1rem;color:var(--text-secondary);margin-bottom:1.25rem;font-style:italic;">${profile.tagline}</div>
+                <div style="display:inline-block;padding:0.4rem 1.2rem;background:rgba(255,255,255,0.06);border-radius:20px;font-size:0.85rem;color:var(--text-secondary);">
+                    Puntuación: <strong style="color:${profile.color};">${score} / 40 puntos</strong>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem;">
+                <div class="card" style="padding:1.75rem;">
+                    <div class="card-title"><i class="fa-solid fa-user"></i> Descripción de tu perfil</div>
+                    <p style="color:var(--text-secondary);font-size:0.9rem;line-height:1.7;margin-bottom:1.25rem;">${profile.description}</p>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+                        <div style="padding:0.75rem;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;text-align:center;">
+                            <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.35rem;">Pérdida máxima estimada</div>
+                            <div style="font-size:0.85rem;font-weight:700;color:var(--danger);">${profile.maxLoss}</div>
+                        </div>
+                        <div style="padding:0.75rem;background:rgba(255,255,255,0.03);border:1px solid var(--border-color);border-radius:8px;text-align:center;">
+                            <div style="font-size:0.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:0.35rem;">Rentabilidad esperada</div>
+                            <div style="font-size:0.85rem;font-weight:700;color:${profile.color};">${profile.expectedReturn}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="padding:1.75rem;">
+                    <div class="card-title"><i class="fa-solid fa-chart-pie"></i> Asignación de activos</div>
+                    ${allocationBar}
+                    <div style="font-size:0.78rem;color:var(--text-secondary);font-weight:600;margin-bottom:0.6rem;text-transform:uppercase;letter-spacing:0.5px;">Instrumentos recomendados</div>
+                    <ul style="list-style:none;padding:0;">${instrumentsHTML}</ul>
+                </div>
+            </div>
+
+            <div class="card" style="padding:1.75rem;margin-bottom:1.25rem;">
+                <div class="card-title"><i class="fa-solid fa-building-columns"></i> Plataformas y brókers adecuados para tu perfil</div>
+                <ul style="list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.1rem;">${platformsHTML}</ul>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
+                <button class="btn btn-secondary" style="padding:1rem;font-size:0.95rem;" onclick="switchTab('contacto')">
+                    <i class="fa-solid fa-calendar-check"></i>&nbsp; Solicitar asesoría personalizada
+                </button>
+                <button class="btn" style="padding:1rem;font-size:0.95rem;background:rgba(255,255,255,0.06);border:1px solid var(--border-color);" onclick="resetTest()">
+                    <i class="fa-solid fa-rotate"></i>&nbsp; Repetir el test
+                </button>
+            </div>
+
+            <p style="text-align:center;font-size:0.76rem;color:var(--text-muted);line-height:1.6;">
+                Resultado guardado en tu dispositivo.<br>
+                Los resultados son orientativos y no constituyen asesoramiento financiero regulado bajo MIFID II.
+            </p>
+        </div>`;
+}
+
+function selectTestAnswer(qIdx, score, oIdx) {
+    testState.answers[qIdx] = score;
+    const container = document.getElementById('test-container');
+    container.querySelectorAll('.test-option').forEach(opt => {
+        const isThis = parseInt(opt.dataset.qidx) === qIdx && parseInt(opt.dataset.oidx) === oIdx;
+        opt.classList.toggle('selected', isThis);
+        const letterEl = opt.querySelector('.test-option-letter');
+        if (letterEl) letterEl.textContent = isThis ? '✓' : String.fromCharCode(65 + parseInt(opt.dataset.oidx));
+        const checkEl = opt.querySelector('.test-option-check');
+        if (checkEl) checkEl.innerHTML = isThis ? '<i class="fa-solid fa-check"></i>' : '';
+    });
+    const nextBtn = document.getElementById('test-next-btn');
+    if (nextBtn) { nextBtn.disabled = false; nextBtn.style.opacity = '1'; nextBtn.style.cursor = 'pointer'; }
+}
+
+function testGoNext() {
+    const currentQIdx = testState.step - 1;
+    if (testState.answers[currentQIdx] === undefined) return;
+    testState.step++;
+    renderTest();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function testGoPrev() {
+    if (testState.step > 1) { testState.step--; renderTest(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+}
+
+function submitTestEmail() {
+    const nameEl = document.getElementById('test-name');
+    const emailEl = document.getElementById('test-email');
+    const name = nameEl ? nameEl.value.trim() : '';
+    const email = emailEl ? emailEl.value.trim() : '';
+
+    if (!name) { if (nameEl) { nameEl.style.borderColor = 'var(--danger)'; nameEl.focus(); } return; }
+    if (!email || !email.includes('@')) { if (emailEl) { emailEl.style.borderColor = 'var(--danger)'; emailEl.focus(); } return; }
+
+    testState.name = name;
+    testState.email = email;
+    localStorage.setItem('eci_test_result', JSON.stringify(testState));
+
+    // TODO: Integrate EmailJS or Formspree here to send results by email
+    // fetch('https://formspree.io/f/YOUR_FORM_ID', { method:'POST', headers:{'Content-Type':'application/json'},
+    //   body: JSON.stringify({ name, email, perfil: profile.name, puntuacion: score }) });
+
+    testState.step = TEST_QUESTIONS.length + 2;
+    renderTest();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+
+// ==========================================
 // APP INITIALIZATION
 // ==========================================
 window.addEventListener('DOMContentLoaded', () => {
@@ -1111,4 +1586,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Blog
     initBlogEngine();
+
+    // Test de Idoneidad
+    initTest();
 });
