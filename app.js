@@ -1034,6 +1034,12 @@ function handleContactSubmit(e) {
 
     if (!name || !email) return;
 
+    fetch('https://formspree.io/f/mdengdgg', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre: name, email, telefono: phone, interes: interest, mensaje: msg })
+    }).catch(() => {});
+
     // Simulate safe API submission success with a premium alert UI overlay
     const container = document.getElementById('lead-contact-form');
     container.innerHTML = `
@@ -1562,9 +1568,13 @@ function submitTestEmail() {
     testState.email = email;
     localStorage.setItem('eci_test_result', JSON.stringify(testState));
 
-    // TODO: Integrate EmailJS or Formspree here to send results by email
-    // fetch('https://formspree.io/f/YOUR_FORM_ID', { method:'POST', headers:{'Content-Type':'application/json'},
-    //   body: JSON.stringify({ name, email, perfil: profile.name, puntuacion: score }) });
+    const score = Object.values(testState.answers).reduce((s, v) => s + v, 0);
+    const profile = TEST_PROFILES.find(p => score >= p.minScore && score <= p.maxScore) || TEST_PROFILES[2];
+    fetch('https://formspree.io/f/xoeadlez', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre: name, email, perfil: profile.name, puntuacion: score })
+    }).catch(() => {});
 
     testState.step = TEST_QUESTIONS.length + 2;
     renderTest();
