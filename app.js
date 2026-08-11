@@ -1,7 +1,25 @@
 // ==========================================
 // SPA ROUTER
 // ==========================================
+function toggleNav() {
+    const nav = document.getElementById('main-nav');
+    const icon = document.getElementById('hamburger-icon');
+    const isOpen = nav.classList.toggle('open');
+    icon.className = isOpen ? 'fa-solid fa-xmark' : 'fa-solid fa-bars';
+}
+
+function closeNav() {
+    const nav = document.getElementById('main-nav');
+    const icon = document.getElementById('hamburger-icon');
+    if (nav && nav.classList.contains('open')) {
+        nav.classList.remove('open');
+        if (icon) icon.className = 'fa-solid fa-bars';
+    }
+}
+
 function switchTab(tabId) {
+    closeNav();
+
     // Hide all sections
     const sections = document.querySelectorAll('.page-section');
     sections.forEach(section => {

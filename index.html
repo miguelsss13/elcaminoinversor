@@ -18,19 +18,22 @@
                 <div class="logo-icon"><i class="fa-solid fa-chart-line"></i></div>
                 <span class="logo-text">elcamino<span class="highlight">inversor</span>.es</span>
             </a>
-            <nav>
-                <ul>
-                    <li><span class="nav-link active" onclick="switchTab('panel')" id="nav-panel"><i class="fa-solid fa-house"></i> Panel</span></li>
-                    <li><span class="nav-link" onclick="switchTab('test')" id="nav-test"><i class="fa-solid fa-clipboard-check"></i> Test Inversor</span></li>
-                    <li><span class="nav-link" onclick="switchTab('hipoteca')" id="nav-hipoteca"><i class="fa-solid fa-house-laptop"></i> Hipotecas</span></li>
-                    <li><span class="nav-link" onclick="switchTab('interes')" id="nav-interes"><i class="fa-solid fa-arrow-up-right-dots"></i> Interés Compuesto</span></li>
-                    <li><span class="nav-link" onclick="switchTab('patrimonio')" id="nav-patrimonio"><i class="fa-solid fa-vault"></i> Patrimonio</span></li>
-                    <li><span class="nav-link" onclick="switchTab('gastos')" id="nav-gastos"><i class="fa-solid fa-receipt"></i> Ingresos/Gastos</span></li>
-                    <li><span class="nav-link" onclick="switchTab('blog')" id="nav-blog"><i class="fa-solid fa-book-open"></i> Artículos</span></li>
-                    <li><span class="nav-link" onclick="switchTab('contacto')" id="nav-contacto"><i class="fa-solid fa-signature"></i> Asesoría</span></li>
-                </ul>
-            </nav>
+            <button class="hamburger-btn" id="hamburger-btn" onclick="toggleNav()" aria-label="Menú de navegación">
+                <i class="fa-solid fa-bars" id="hamburger-icon"></i>
+            </button>
         </div>
+        <nav id="main-nav" class="main-nav">
+            <ul>
+                <li><span class="nav-link active" onclick="switchTab('panel')" id="nav-panel"><i class="fa-solid fa-house"></i> Panel</span></li>
+                <li><span class="nav-link" onclick="switchTab('test')" id="nav-test"><i class="fa-solid fa-clipboard-check"></i> Test Inversor</span></li>
+                <li><span class="nav-link" onclick="switchTab('hipoteca')" id="nav-hipoteca"><i class="fa-solid fa-house-laptop"></i> Hipotecas</span></li>
+                <li><span class="nav-link" onclick="switchTab('interes')" id="nav-interes"><i class="fa-solid fa-arrow-up-right-dots"></i> Interés Compuesto</span></li>
+                <li><span class="nav-link" onclick="switchTab('patrimonio')" id="nav-patrimonio"><i class="fa-solid fa-vault"></i> Patrimonio</span></li>
+                <li><span class="nav-link" onclick="switchTab('gastos')" id="nav-gastos"><i class="fa-solid fa-receipt"></i> Ingresos/Gastos</span></li>
+                <li><span class="nav-link" onclick="switchTab('blog')" id="nav-blog"><i class="fa-solid fa-book-open"></i> Artículos</span></li>
+                <li><span class="nav-link" onclick="switchTab('contacto')" id="nav-contacto"><i class="fa-solid fa-signature"></i> Asesoría</span></li>
+            </ul>
+        </nav>
     </header>
 
     <!-- Main Content Area (SPA Sections) -->
@@ -77,23 +80,55 @@
                     </div>
                 </div>
 
-                <!-- Tools Access Cards -->
-                <div class="card" style="grid-column: span 4;" onclick="switchTab('hipoteca')">
-                    <div class="card-title"><i class="fa-solid fa-calculator" style="color: var(--secondary)"></i> Hipotecas</div>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Calcula tu cuota mensual de amortización y conoce el impacto real de los tipos de interés en tu préstamo.</p>
+            </div>
+
+            <!-- All Tools Grid -->
+            <div class="home-tools-header">
+                <h2 class="home-tools-title">Herramientas disponibles</h2>
+                <p class="home-tools-subtitle">Accede directamente a cualquier recurso</p>
+            </div>
+            <div class="home-tools-grid">
+                <div class="card home-tool-card" onclick="switchTab('test')">
+                    <div class="home-tool-icon" style="color:#10b981"><i class="fa-solid fa-clipboard-check"></i></div>
+                    <div class="home-tool-title">Test Inversor</div>
+                    <p>Descubre tu perfil de riesgo con el test MIFID II y conoce qué cartera se adapta a ti.</p>
+                    <span class="read-more">Hacer el test <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+                <div class="card home-tool-card" onclick="switchTab('hipoteca')">
+                    <div class="home-tool-icon" style="color:#3b82f6"><i class="fa-solid fa-house-laptop"></i></div>
+                    <div class="home-tool-title">Calculadora Hipotecas</div>
+                    <p>Calcula tu cuota mensual y conoce el impacto real de los tipos de interés en tu préstamo.</p>
                     <span class="read-more">Calcular ahora <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
-
-                <div class="card" style="grid-column: span 4;" onclick="switchTab('interes')">
-                    <div class="card-title"><i class="fa-solid fa-chart-line" style="color: var(--primary)"></i> Interés Compuesto</div>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Simula el crecimiento de tus inversiones a largo plazo combinando tus aportaciones periódicas.</p>
-                    <span class="read-more">Simular rentabilidad <i class="fa-solid fa-arrow-right"></i></span>
+                <div class="card home-tool-card" onclick="switchTab('interes')">
+                    <div class="home-tool-icon" style="color:#3b82f6"><i class="fa-solid fa-arrow-up-right-dots"></i></div>
+                    <div class="home-tool-title">Interés Compuesto</div>
+                    <p>Simula el crecimiento de tus inversiones a largo plazo con aportaciones periódicas.</p>
+                    <span class="read-more">Simular <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
-
-                <div class="card" style="grid-column: span 4;" onclick="switchTab('blog')">
-                    <div class="card-title"><i class="fa-solid fa-book" style="color: var(--accent)"></i> Guías y Artículos</div>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Lee nuestros artículos educativos sobre inflación, fiscalidad, inversiones y normativa financiera MIFID II.</p>
+                <div class="card home-tool-card" onclick="switchTab('patrimonio')">
+                    <div class="home-tool-icon" style="color:#f59e0b"><i class="fa-solid fa-vault"></i></div>
+                    <div class="home-tool-title">Patrimonio Neto</div>
+                    <p>Registra tus activos y pasivos para conocer tu riqueza neta real en todo momento.</p>
+                    <span class="read-more">Ver balance <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+                <div class="card home-tool-card" onclick="switchTab('gastos')">
+                    <div class="home-tool-icon" style="color:#f59e0b"><i class="fa-solid fa-receipt"></i></div>
+                    <div class="home-tool-title">Ingresos / Gastos</div>
+                    <p>Controla tu flujo de caja mensual y calcula tu tasa de ahorro real.</p>
+                    <span class="read-more">Ver flujo de caja <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+                <div class="card home-tool-card" onclick="switchTab('blog')">
+                    <div class="home-tool-icon" style="color:#8b5cf6"><i class="fa-solid fa-book-open"></i></div>
+                    <div class="home-tool-title">Artículos</div>
+                    <p>Guías sobre inflación, fiscalidad, inversiones y normativa MIFID II.</p>
                     <span class="read-more">Ver artículos <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+                <div class="card home-tool-card" onclick="switchTab('contacto')">
+                    <div class="home-tool-icon" style="color:#ec4899"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div class="home-tool-title">Asesoría Gratuita</div>
+                    <p>Agenda una sesión de diagnóstico patrimonial gratuita de 30 minutos.</p>
+                    <span class="read-more">Agendar sesión <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </div>
 
