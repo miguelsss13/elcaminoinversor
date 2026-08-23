@@ -32,6 +32,7 @@
                 <li><span class="nav-link" onclick="switchTab('gastos')" id="nav-gastos"><i class="fa-solid fa-receipt"></i> Ingresos/Gastos</span></li>
                 <li><span class="nav-link" onclick="switchTab('blog')" id="nav-blog"><i class="fa-solid fa-book-open"></i> Artículos</span></li>
                 <li><span class="nav-link" onclick="switchTab('contacto')" id="nav-contacto"><i class="fa-solid fa-signature"></i> Asesoría</span></li>
+                <li><span class="nav-link" onclick="switchTab('sobre-mi')" id="nav-sobre-mi"><i class="fa-solid fa-user-tie"></i> Sobre mí</span></li>
             </ul>
         </nav>
     </header>
@@ -129,6 +130,12 @@
                     <div class="home-tool-title">Asesoría Gratuita</div>
                     <p>Agenda una sesión de diagnóstico patrimonial gratuita de 30 minutos.</p>
                     <span class="read-more">Agendar sesión <i class="fa-solid fa-arrow-right"></i></span>
+                </div>
+                <div class="card home-tool-card" onclick="switchTab('sobre-mi')">
+                    <div class="home-tool-icon" style="color:#3b82f6"><i class="fa-solid fa-user-tie"></i></div>
+                    <div class="home-tool-title">Sobre mí</div>
+                    <p>Conoce quién hay detrás de El Camino Inversor y por qué puedes confiar en el asesoramiento.</p>
+                    <span class="read-more">Conocer más <i class="fa-solid fa-arrow-right"></i></span>
                 </div>
             </div>
 
@@ -611,6 +618,88 @@
 
                         <button type="submit" class="btn btn-secondary" style="width: 100%;"><i class="fa-solid fa-paper-plane"></i> Solicitar Sesión Gratuita</button>
                     </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- SOBRE MÍ -->
+        <section id="sobre-mi" class="page-section">
+            <div class="hero">
+                <div class="badge">Quién hay detrás</div>
+                <h1>Hola, soy <span>Miguel</span></h1>
+                <p>Apasionado de los mercados financieros, trabajo en el sector tecnológico-financiero y estoy en proceso de convertirme en asesor certificado MIFID II.</p>
+            </div>
+
+            <div class="about-grid">
+                <!-- Profile card -->
+                <div class="card about-profile-card">
+                    <div class="about-avatar">
+                        <i class="fa-solid fa-user-tie"></i>
+                    </div>
+                    <h2 class="about-name">Miguel</h2>
+                    <div class="about-tagline">Asesor Financiero en Formación · MIFID II</div>
+                    <p class="about-bio">
+                        Trabajo en proyectos de trading algorítmico para un banco español. Eso me ha dado una visión privilegiada de cómo funciona el dinero desde dentro — y me ha convencido de que la mayoría de personas merecen acceso a ese mismo conocimiento.
+                    </p>
+                    <p class="about-bio">
+                        Cuando empecé a hablar de inversión con personas de mi entorno, me di cuenta de que mucha gente tiene recursos pero no tiene un plan. Decidí formalizar ese conocimiento y sacarme la certificación MIFID II para poder ayudar con todas las garantías legales.
+                    </p>
+                    <button class="btn btn-secondary" onclick="switchTab('contacto')" style="margin-top:1.5rem;width:100%;">
+                        <i class="fa-regular fa-calendar-check"></i> Hablemos — es gratis
+                    </button>
+                </div>
+
+                <!-- Right column -->
+                <div style="display:flex;flex-direction:column;gap:1rem;">
+                    <div class="card">
+                        <div class="card-title"><i class="fa-solid fa-road" style="color:var(--secondary)"></i> Mi recorrido</div>
+                        <div class="about-timeline">
+                            <div class="about-timeline-item">
+                                <div class="about-timeline-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6"><i class="fa-solid fa-gear"></i></div>
+                                <div>
+                                    <div class="about-timeline-title">Ingeniería</div>
+                                    <div class="about-timeline-desc">Formación técnica y analítica que me enseñó a resolver problemas complejos con datos, no con intuición.</div>
+                                </div>
+                            </div>
+                            <div class="about-timeline-item">
+                                <div class="about-timeline-icon" style="background:rgba(16,185,129,0.12);color:#10b981"><i class="fa-solid fa-microchip"></i></div>
+                                <div>
+                                    <div class="about-timeline-title">Máster en Fintech</div>
+                                    <div class="about-timeline-desc">Donde la tecnología y las finanzas se fusionaron. Entendí cómo funciona el sistema financiero moderno de verdad.</div>
+                                </div>
+                            </div>
+                            <div class="about-timeline-item">
+                                <div class="about-timeline-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b"><i class="fa-solid fa-chart-line"></i></div>
+                                <div>
+                                    <div class="about-timeline-title">Sector financiero</div>
+                                    <div class="about-timeline-desc">Trabajo en proyectos de trading algorítmico para un banco español. Veo cómo funciona el mercado desde dentro.</div>
+                                </div>
+                            </div>
+                            <div class="about-timeline-item">
+                                <div class="about-timeline-icon" style="background:rgba(139,92,246,0.12);color:#8b5cf6"><i class="fa-solid fa-certificate"></i></div>
+                                <div>
+                                    <div class="about-timeline-title">Certificación MIFID II</div>
+                                    <div class="about-timeline-desc">El paso final para asesorar con todas las garantías legales y éticas que mereces.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-title"><i class="fa-solid fa-people-group" style="color:var(--primary)"></i> A quién ayudo</div>
+                        <div class="about-audience-grid">
+                            <div class="about-audience-card">
+                                <div class="about-audience-emoji">🚀</div>
+                                <div class="about-audience-title">Jóvenes profesionales</div>
+                                <p>Acabas de empezar a trabajar y quieres un plan: comprar casa, empezar a invertir o simplemente dejar de ver cómo la inflación come tus ahorros.</p>
+                            </div>
+                            <div class="about-audience-card">
+                                <div class="about-audience-emoji">💰</div>
+                                <div class="about-audience-title">Ahorradores sin plan</div>
+                                <p>Tienes dinero guardado pero no sabes qué hacer con él. El banco no te da nada y no sabes por dónde empezar a invertir.</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
