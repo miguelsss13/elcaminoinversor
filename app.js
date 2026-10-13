@@ -1228,6 +1228,34 @@ const TEST_QUESTIONS = [
     }
 ];
 
+// ── AFFILIATE LINKS ──────────────────────────────────────────────────────────
+// Sustituye cada url: 'URL_AFILIADO_AQUI' con tu enlace de afiliado real.
+// Los demás campos (name, desc, badge, icon) puedes dejarlos como están.
+const AFFILIATE_LINKS = {
+    1: [ // Conservador
+        { name: 'MyInvestor', desc: 'Fondos monetarios y depósitos con rentabilidades atractivas y riesgo mínimo.', badge: 'Ideal para conservadores', icon: 'fa-piggy-bank', color: '#e74c3c', url: 'URL_AFILIADO_AQUI' },
+        { name: 'Finizens', desc: 'Cartera gestionada conservadora con comisiones bajas y gestión automatizada.', badge: 'Gestión automatizada', icon: 'fa-robot', color: '#3b82f6', url: 'URL_AFILIADO_AQUI' },
+    ],
+    2: [ // Moderado-Conservador
+        { name: 'Indexa Capital', desc: 'El roboadvisor nº1 en España. Carteras indexadas de bajo coste para perfiles equilibrados.', badge: 'Nº1 en España', icon: 'fa-chart-line', color: '#10b981', url: 'URL_AFILIADO_AQUI' },
+        { name: 'Finizens', desc: 'Inversión automatizada con cartera equilibrada, sin decisiones complejas.', badge: 'Sin complicaciones', icon: 'fa-robot', color: '#3b82f6', url: 'URL_AFILIADO_AQUI' },
+    ],
+    3: [ // Moderado
+        { name: 'Indexa Capital', desc: 'El roboadvisor nº1 en España. Carteras indexadas globales de bajo coste.', badge: 'Nº1 en España', icon: 'fa-chart-line', color: '#10b981', url: 'URL_AFILIADO_AQUI' },
+        { name: 'inbestMe', desc: 'Carteras indexadas con mayor personalización y acceso a mercados globales.', badge: 'Alta personalización', icon: 'fa-sliders', color: '#8b5cf6', url: 'URL_AFILIADO_AQUI' },
+    ],
+    4: [ // Moderado-Agresivo
+        { name: 'Indexa Capital', desc: 'Carteras con mayor peso en renta variable, gestionadas automáticamente.', badge: 'Nº1 en España', icon: 'fa-chart-line', color: '#10b981', url: 'URL_AFILIADO_AQUI' },
+        { name: 'inbestMe', desc: 'Carteras de crecimiento con acceso a renta variable global y ESG.', badge: 'Mercados globales', icon: 'fa-globe', color: '#8b5cf6', url: 'URL_AFILIADO_AQUI' },
+        { name: 'MyInvestor', desc: 'Acceso directo a los mejores fondos indexados de Vanguard, iShares y Amundi.', badge: 'Mejores fondos indexados', icon: 'fa-building-columns', color: '#e74c3c', url: 'URL_AFILIADO_AQUI' },
+    ],
+    5: [ // Agresivo
+        { name: 'MyInvestor', desc: 'Acceso a fondos indexados de Vanguard, iShares y Amundi con las mejores condiciones.', badge: 'Fondos indexados premium', icon: 'fa-building-columns', color: '#e74c3c', url: 'URL_AFILIADO_AQUI' },
+        { name: 'inbestMe', desc: 'Carteras agresivas con alta exposición a renta variable global y mercados emergentes.', badge: 'Máximo crecimiento', icon: 'fa-rocket', color: '#8b5cf6', url: 'URL_AFILIADO_AQUI' },
+        { name: 'Trade Republic', desc: 'Compra ETFs y acciones directamente con 0 comisiones de compraventa.', badge: '0 comisiones', icon: 'fa-chart-bar', color: '#f59e0b', url: 'URL_AFILIADO_AQUI' },
+    ],
+};
+
 const TEST_PROFILES = [
     {
         id: 1, minScore: 10, maxScore: 15,
@@ -1528,6 +1556,37 @@ function buildTestResultHTML() {
             <div class="card" style="padding:1.75rem;margin-bottom:1.25rem;">
                 <div class="card-title"><i class="fa-solid fa-building-columns"></i> Plataformas y brókers adecuados para tu perfil</div>
                 <ul style="list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0.1rem;">${platformsHTML}</ul>
+            </div>
+
+            <div class="card" style="padding:1.75rem;margin-bottom:1.25rem;border-color:rgba(16,185,129,0.25);background:rgba(16,185,129,0.04);">
+                <div class="card-title"><i class="fa-solid fa-star" style="color:#10b981"></i> Empieza a invertir hoy — Selección para tu perfil</div>
+                <p style="color:var(--text-secondary);font-size:0.85rem;margin-bottom:1.25rem;line-height:1.6;">
+                    Estas plataformas están seleccionadas específicamente para un perfil <strong style="color:${profile.color}">${profile.name}</strong> como el tuyo. Todas son reguladas por la CNMV y ofrecen las mejores condiciones del mercado.
+                </p>
+                <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;">
+                    ${(AFFILIATE_LINKS[profile.id] || []).map(p => `
+                        <div style="background:rgba(255,255,255,0.04);border:1px solid var(--border-color);border-radius:12px;padding:1.25rem;display:flex;flex-direction:column;gap:0.75rem;">
+                            <div style="display:flex;align-items:center;gap:0.6rem;">
+                                <div style="width:36px;height:36px;border-radius:8px;background:${p.color}22;display:flex;align-items:center;justify-content:center;color:${p.color};font-size:1rem;">
+                                    <i class="fa-solid ${p.icon}"></i>
+                                </div>
+                                <div>
+                                    <div style="font-weight:700;font-size:0.95rem;color:var(--text-primary);">${p.name}</div>
+                                    <div style="font-size:0.7rem;background:${p.color}22;color:${p.color};padding:0.15rem 0.5rem;border-radius:20px;font-weight:600;display:inline-block;">${p.badge}</div>
+                                </div>
+                            </div>
+                            <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.55;margin:0;">${p.desc}</p>
+                            <a href="${p.url}" target="_blank" rel="noopener noreferrer"
+                               style="display:flex;align-items:center;justify-content:center;gap:0.5rem;padding:0.65rem 1rem;background:${p.color};border-radius:8px;color:white;font-weight:600;font-size:0.85rem;text-decoration:none;transition:opacity 0.2s;"
+                               onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                                Abrir cuenta gratis <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.75rem;"></i>
+                            </a>
+                        </div>
+                    `).join('')}
+                </div>
+                <p style="font-size:0.72rem;color:var(--text-muted);margin-top:1rem;line-height:1.5;">
+                    <i class="fa-solid fa-circle-info"></i> Aviso: los enlaces a plataformas son de afiliado. Si abres cuenta a través de ellos, El Camino Inversor puede recibir una comisión sin coste adicional para ti.
+                </p>
             </div>
 
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem;">
